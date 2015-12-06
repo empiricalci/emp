@@ -46,8 +46,8 @@ The whole can be seen in the following diagram:
 ![framework](https://www.lucidchart.com/publicSegments/view/c4bb8431-71ba-4711-9620-b3cf49d6a8d1/image.png)
 
 ### Interface
-For the **solver** and the **evaluator** to communicate there should be an _interface_ between them. This interface should be built
-in the **solver** module. The interface should be able to receive parameters from the 
+For the **solver** and the **evaluator** to communicate there should be an _interface_ between them. 
+This interface should be implemented both on the evaluator and the solver for them to be compatible.
 
 
 ## Dependencies
