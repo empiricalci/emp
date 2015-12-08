@@ -25,11 +25,15 @@ to take the approaches from the lab to the real world.
 - Or maybe I want to use a different evaluation methodology or use it in a different problem.
 
 ### Solution Model
-A replicable standalone environment that just works. In order to achieve this we can start by adopting a common framework and workflows to perform experiments. After all, we're trying to reduce as much as possible any variations to replicate the experiments. This starts during the developing process. A well designed workflow can help significantly to optimize
+A replicable standalone environment that just works. In order to achieve this we can start by adopting a common framework 
+and workflows to perform experiments. 
+After all, we're trying to reduce as much as possible any variations to replicate the experiments. 
+This starts during the development process. A well designed workflow can help significantly to optimize 
 the development of new approaches.
 
 ### Design Principles:
-The framework should be modulare so we can mix and match the different modules. Each module should do one single thing and communicate to the other modules via an stablished protocol:
+The framework should be modulare so we can mix and match the different modules. 
+Each module should do one single thing and communicate to the other modules via an stablished protocol:
 - Isolate your **solver**
 - Isolate your **data**
 - Isolate your **evaluator**
@@ -49,9 +53,24 @@ The whole can be seen in the following diagram:
 For the **solver** and the **evaluator** to communicate there should be an _interface_ between them. 
 This interface should be implemented both on the evaluator and the solver for them to be compatible.
 
+This is the interface that empirical tries to absctract by creating standard description of a problem.
+
+```javascript
+{
+  solver: 'alantrrs/meanflow',
+  command: 'something',
+  interactive: true
+}
+```
+
+There are two options to interact with a solver:
+- interactive: This means a connection is kept open after each command so the state of the program is maintained.
+- non-interactive: The solver executes the command and closes the connection.
 
 ## Dependencies
-The core enabling technology that's used in this framework is **Docker**. Docker allows us to create self-contained portable environments that work accross different platforms. This is what facilitates reproducibility since it isolates the environment and makes it replicable.
+The core enabling technology that's used in this framework is **Docker**. 
+Docker allows us to create self-contained portable environments that work accross different platforms. 
+This is what facilitates reproducibility since it isolates the environment and makes it replicable.
 
 ## Install
 

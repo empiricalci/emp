@@ -1,0 +1,26 @@
+{
+  "name": "lab-manager",
+  "version": "0.1.0",
+  "description": "Lab Manager is a server that launches all the research environments and executes  the commands sent by the Empirical Interface.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alantrrs/lab-manager.git"
+  },
+  "author": "alantrrs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alantrrs/lab-manager/issues"
+  },
+  "homepage": "https://github.com/alantrrs/lab-manager#readme",
+  "dependencies": {
+    "zmq": "^2.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
+}
