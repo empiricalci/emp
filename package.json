@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/alantrrs/lab-manager#readme",
   "dependencies": {
+    "nodegit": "^0.7.0",
     "zmq": "^2.14.0"
   },
   "devDependencies": {
