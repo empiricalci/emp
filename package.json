@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -19,9 +20,11 @@
   "homepage": "https://github.com/alantrrs/lab-manager#readme",
   "dependencies": {
     "nodegit": "^0.7.0",
+    "shortid": "^2.2.4",
     "zmq": "^2.14.0"
   },
   "devDependencies": {
-    "nodemon": "^1.8.1"
+    "nodemon": "^1.8.1",
+    "standard": "^5.4.1"
   }
 }

@@ -17,8 +17,3 @@ socket.on('message', function(topic, message){
   })
 })
 
-// TODO: Clone repository
-// TODO: Verify compatibility
-// TODO: Build image
-// TODO: Run experiments
-// TODO: Post results
