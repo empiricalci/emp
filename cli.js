@@ -58,6 +58,16 @@ Git.Clone(git_repo, code_dir, options).then(function (repo) {
     file: 'empirical.yml'
   }, onData, onData )
 })
+.then(function () {
+  // Build image
+  var onData = function(data) {
+     console.log(data.toString())
+  }
+  return compose(dir, {
+    command: 'run',
+    file: 'empirical.yml'
+  }, onData, onData )
+})
 .catch(handleError)
 // TODO: Create workspace dir for the session
 
