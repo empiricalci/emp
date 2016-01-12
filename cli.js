@@ -47,32 +47,32 @@ Git.Clone(git_repo, code_dir, options).then(function (repo) {
   // TODO: Verify compatibility
   // TODO: Test if empirical.yml exists and is valid
   return code_dir
-})
-.then(function (dir) {
+}).then(function () {
   // Build image
-  var onData = function(data) {
-     console.log(data.toString())
+  var onData = function (data) {
+    console.log(data.toString())
   }
-  return compose(dir, {
+  return compose(code_dir, {
     command: 'build',
     file: 'empirical.yml'
-  }, onData, onData )
+  }, onData, onData)
 })
 .then(function () {
-  // Build image
-  var onData = function(data) {
-     console.log(data.toString())
+  // TODO: Create workspace dir for the session
+  // TODO: Launch the containers with the appropriate data and workspace directories
+  // Run experiments
+  var onData = function (data) {
+    console.log(data.toString())
   }
-  return compose(dir, {
+  return compose(code_dir, {
     command: 'run',
-    file: 'empirical.yml'
-  }, onData, onData )
+    file: 'empirical.yml',
+    options: {
+      service: 'empirical' // FIXME: This should come from somewhere else
+    }
+  }, onData, onData)
 })
 .catch(handleError)
-// TODO: Create workspace dir for the session
 
-// TODO: Launch the containers with the appropriate data and workspace directories
-// TODO: Run experiments
-// compose.run()
-// TODO: Post results
-// TODO: Save artifacts/upload
+  // TODO: Post results
+  // TODO: Save artifacts/upload
