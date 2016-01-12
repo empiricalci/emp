@@ -20,8 +20,7 @@
   "homepage": "https://github.com/alantrrs/lab-manager#readme",
   "dependencies": {
     "nodegit": "^0.7.0",
-    "shortid": "^2.2.4",
-    "zmq": "^2.14.0"
+    "shortid": "^2.2.4"
   },
   "devDependencies": {
     "nodemon": "^1.8.1",

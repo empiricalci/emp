@@ -2,7 +2,6 @@
 FROM mhart/alpine-node:5.2.0
 
 # Install Empirical Interface
-RUN apk add --update zeromq zeromq-dev
 COPY . /emp
 WORKDIR /emp
 RUN npm install
