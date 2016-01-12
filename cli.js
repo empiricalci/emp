@@ -50,11 +50,19 @@ Git.Clone(git_repo, code_dir, options).then(function (repo) {
 })
 .then(function (dir) {
   // Build image
-  return compose(dir, {command: 'build', file: 'empirical.yml'})
+  var onData = function(data) {
+     console.log(data.toString())
+  }
+  return compose(dir, {
+    command: 'build',
+    file: 'empirical.yml'
+  }, onData, onData )
 })
 .catch(handleError)
 // TODO: Create workspace dir for the session
 
 // TODO: Launch the containers with the appropriate data and workspace directories
 // TODO: Run experiments
+// compose.run()
 // TODO: Post results
+// TODO: Save artifacts/upload

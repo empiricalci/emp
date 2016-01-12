@@ -1,23 +1,17 @@
 // Hopefully this can be replaced by a real node lib
 
-var exec = require('child_process').exec
+var child_process = require('child_process')
+var exec = child_process.exec
+var spawn = child_process.spawn
 
-var compose = function (cwd, opts) {
-  var cmd = 'docker-compose'
-  if (opts.file) cmd = cmd + ' -f ' + opts.file
-  cmd = cmd + ' ' + opts.command
-  var cmd_opts = opts.options
-  if (cmd_opts) {
-    if (cmd_opts.force_rm) cmd += '--force-rm '
-    if (cmd_opts.no_cache) cmd += ' --no-cache '
-    if (cmd_opts.pull) cmd += ' --pull '
-    if (cmd_opts.service) cmd += opts.service
-  }
+var compose = function (cwd, opts, onOut, onErr) {
+  const docker = spawn('docker-compose', ['-f', opts.file, opts.command] ,{cwd: cwd})
+  docker.stdout.on('data', onOut)
+  docker.stderr.on('data', onErr)
   return new Promise(function (resolve, reject) {
-    exec(cmd, {cwd: cwd}, function (err, stdout, sterr) {
-      if (err) return reject(err)
-      console.log(stdout)
-      resolve(stdout)
+    docker.on('close', function (code) {
+      if (code !== 0) return reject(code)
+      resolve()
     })
   })
 }
