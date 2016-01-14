@@ -3,6 +3,7 @@ var Git = require('nodegit')
 var shortid = require('shortid')
 var mkdir = require('mkdirp')
 var compose = require('./compose')
+var YAML = require('yamljs')
 
 var handleError = function (err) {
   console.log(err)
@@ -11,6 +12,8 @@ var handleError = function (err) {
 
 // TODO: Get params from cli
 var git_repo = 'git@github.com:alantrrs/emp'
+
+var yml_file = 'empirical.yml'
 
 // Generate random session id
 // TODO: Get random id from the Request
@@ -54,7 +57,7 @@ Git.Clone(git_repo, code_dir, options).then(function (repo) {
   }
   return compose(code_dir, {
     command: 'build',
-    file: 'empirical.yml'
+    file: yml_file
   }, onData, onData)
 })
 .then(function () {
@@ -66,10 +69,8 @@ Git.Clone(git_repo, code_dir, options).then(function (repo) {
   }
   return compose(code_dir, {
     command: 'run',
-    file: 'empirical.yml',
-    options: {
-      service: 'empirical' // FIXME: This should come from somewhere else
-    }
+    file: yml_file,
+    service: Object.keys(YAML.load(yml_file))[0]
   }, onData, onData)
 })
 .catch(handleError)

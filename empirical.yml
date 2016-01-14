@@ -1,2 +1,3 @@
-empirical:
+tests:
   build: .
+  command: npm run test

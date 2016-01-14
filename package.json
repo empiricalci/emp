@@ -1,7 +1,7 @@
 {
-  "name": "lab-manager",
+  "name": "emp",
   "version": "0.1.0",
-  "description": "Lab Manager is a server that launches all the research environments and executes  the commands sent by the Empirical Interface.",
+  "description": "Empirical Client",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -20,7 +20,8 @@
   "homepage": "https://github.com/alantrrs/lab-manager#readme",
   "dependencies": {
     "nodegit": "^0.7.0",
-    "shortid": "^2.2.4"
+    "shortid": "^2.2.4",
+    "yamljs": "^0.2.4"
   },
   "devDependencies": {
     "nodemon": "^1.8.1",
