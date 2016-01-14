@@ -4,8 +4,8 @@ var child_process = require('child_process')
 var spawn = child_process.spawn
 
 var compose = function (cwd, opts, onOut, onErr) {
-  var args= ['-f', opts.file, opts.command]
-  if (opts.command === 'run')  args.push(opts.service)
+  var args = ['-f', opts.file, opts.command]
+  if (opts.command === 'run') args.push(opts.service)
   const docker = spawn('docker-compose', args, {cwd: cwd})
   // Pass the docker-compose.yml as a string
   docker.stdin.write(opts.file)
