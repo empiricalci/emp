@@ -1,3 +1,4 @@
 tests:
   build: .
+  entrypoint: bash
   command: npm run test

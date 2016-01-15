@@ -5,3 +5,4 @@ FROM mhart/alpine-node:5.2.0
 COPY . /emp
 WORKDIR /emp
 RUN npm install
+ENTRYPOINT ["node", "index.js"]
