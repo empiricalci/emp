@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/alantrrs/lab-manager#readme",
   "dependencies": {
+    "amqplib": "^0.4.0",
     "nodegit": "^0.7.0",
     "shortid": "^2.2.4",
     "yamljs": "^0.2.4"

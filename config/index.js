@@ -15,4 +15,9 @@ config.git = {
   }
 }
 
+config.amqp = {
+  host: 'amqp://localhost',
+  queue: 'tasks'
+}
+
 module.exports = config
