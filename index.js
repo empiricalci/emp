@@ -15,9 +15,6 @@ var client = require('./lib/client')
 // - ssh credentials
 // - tmp sessions path
 
-// TODO: Get random id from the Request
-// var session_id = req.session_id
-
 var args = process.argv
 
 if (args.length > 2) {
