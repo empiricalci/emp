@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alantrrs/lab-manager.git"
+    "url": "git+https://github.com/alantrrs/emp.git"
   },
   "author": "alantrrs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alantrrs/lab-manager/issues"
+    "url": "https://github.com/alantrrs/emp/issues"
   },
-  "homepage": "https://github.com/alantrrs/lab-manager#readme",
+  "homepage": "https://github.com/alantrrs/emp#readme",
   "dependencies": {
     "amqplib": "^0.4.0",
     "nodegit": "^0.7.0",
