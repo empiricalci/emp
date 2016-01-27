@@ -1,5 +1,9 @@
-# Install Node (https://github.com/mhart/alpine-node)
-FROM mhart/alpine-node:5.2.0
+# TODO: Use alpine instead for smaller image. 
+#But first need to be able to run nodegit in alpine.
+#FROM mhart/alpine-node:5.5.0 
+
+# Use node
+FROM node:5.5.0
 
 # Install Empirical
 COPY . /emp

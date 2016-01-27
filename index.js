@@ -24,6 +24,6 @@ if (args.length > 2) {
     ssh_url: git_repo
   }).catch(emp.handleError)
 } else {
-  client.consumeTasks()
+  client.consumeTasks().catch(emp.handleError)
 }
 

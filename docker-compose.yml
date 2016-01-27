@@ -1,0 +1,17 @@
+queue:
+  container_name: rabbit-emp
+  image: rabbitmq:3
+  hostname: empirical-queue
+  ports:
+    - "5672:5672"
+
+emp:
+  build: .
+  volumes:
+    - /home/ambidextrvs/.ssh/:/home/ambidextrvs/.ssh
+    - /var/run/docker.sock:/var/run/docker.sock
+    - .:/emp
+  tty: true
+  stdin_open: true
+  links:
+    - queue
