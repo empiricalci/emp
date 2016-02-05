@@ -5,7 +5,7 @@ queue:
   ports:
     - "5672:5672"
 
-emp:
+emp_dev:
   build: .
   volumes:
     - /home/ambidextrvs/.ssh/:/home/ambidextrvs/.ssh
@@ -15,3 +15,18 @@ emp:
   stdin_open: true
   links:
     - queue
+
+emp_staging:
+  extends:
+    service: emp
+  environment:
+    - EMPIRICAL_ENV=staging
+    - EMPIRICAL_AMQP_URL=$EMPIRICAL_AMQP_URL_STAGING
+emp:
+  build: .
+  volumes:
+    - /home/ambidextrvs/.ssh/:/home/ambidextrvs/.ssh
+    - /var/run/docker.sock:/var/run/docker.sock
+    - .:/emp
+  tty: true
+  stdin_open: true
