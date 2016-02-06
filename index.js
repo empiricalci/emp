@@ -19,7 +19,7 @@ var args = process.argv
 
 if (args.length > 2) {
   var git_repo = args[args.length - 1]
-  client.runTask({
+  emp.runTask({
     cli_mode: true,
     ssh_url: git_repo
   }).catch(emp.handleError)

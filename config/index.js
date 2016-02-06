@@ -17,7 +17,7 @@ config.git = {
 }
 
 config.amqp = {
-  host: process.env.EMPIRICAL_AMQP_URL ||'amqp://empirical-queue',
+  host: process.env.EMPIRICAL_AMQP_URL || 'amqp://empirical-queue',
   queue: process.env.EMPIRICAL_ENV ? 'builds:' + process.env.EMPIRICAL_ENV : 'builds:development'
 }
 
