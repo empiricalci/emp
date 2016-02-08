@@ -1,6 +1,6 @@
 
 var emp = require('./lib')
-var client = require('./lib/client')
+var worker = require('./lib/worker')
 
 // TODO: Print help
 // if emp [ params ] [ directory | git url ]
@@ -22,8 +22,8 @@ if (args.length > 2) {
   emp.runTask({
     cli_mode: true,
     ssh_url: git_repo
-  }).catch(emp.handleError)
+  })
 } else {
-  client.consumeTasks().catch(emp.handleError)
+  worker.consumeTasks().catch(emp.handleError)
 }
 
