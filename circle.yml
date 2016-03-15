@@ -5,10 +5,10 @@ machine:
     - docker
 dependencies:
   override: 
-    - docker build -t emp .
+    - docker build -t empiricaladmin/emp .
 test:
   override:
-    - docker run --entrypoint npm emp test 
+    - docker run --entrypoint npm empiricaladmin/emp test 
 
 deployment:
   dockerhub:
