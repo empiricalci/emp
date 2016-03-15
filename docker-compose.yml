@@ -8,7 +8,6 @@ queue:
 emp_dev:
   build: .
   volumes:
-    - /home/ambidextrvs/.ssh/:/home/ambidextrvs/.ssh
     - /var/run/docker.sock:/var/run/docker.sock
     - .:/emp
   tty: true
@@ -25,7 +24,6 @@ emp_staging:
 emp:
   build: .
   volumes:
-    - /home/ambidextrvs/.ssh/:/home/ambidextrvs/.ssh
     - /var/run/docker.sock:/var/run/docker.sock
     - .:/emp
   tty: true
