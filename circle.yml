@@ -1,0 +1,17 @@
+machine:
+  node:
+    version: 5
+  services:
+    - docker
+dependencies:
+  override: 
+    - docker build -t emp .
+test:
+  override:
+    - docker run --entrypoint npm emp test 
+
+deployment:
+  dockerhub:
+    branch: master
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - docker push empiricaladmin/emp
