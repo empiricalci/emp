@@ -13,5 +13,6 @@ test:
 deployment:
   dockerhub:
     branch: master
-    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-    - docker push empiricaladmin/emp
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push empiricaladmin/emp
