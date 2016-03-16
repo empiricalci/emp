@@ -15,8 +15,8 @@ config.amqp = {
 
 const endpoints = {
   development: 'http://empiricaldev.localtunnel.me',
-  staging: 'http://scihub-qa.herokuapp.com',
-  production: 'http://scihub.herokuapp.com'
+  staging: 'http://qa.empiricalci.com',
+  production: 'http://empiricalci.com'
 }
 
 // TODO: Add auth via key + secret
