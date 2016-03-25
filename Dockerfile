@@ -5,6 +5,9 @@
 # Use node
 FROM node:5.5.0
 
+# Install docker client (for debugging purposes)
+RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 && mv docker-1.9.1 /usr/bin/docker && chmod 777 /usr/bin/docker
+
 # Install Empirical
 COPY . /emp
 WORKDIR /emp
