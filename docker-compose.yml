@@ -10,6 +10,10 @@ emp_dev:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - .:/emp
+  environment:
+    - DOCKER_AUTH=$DOCKER_AUTH
+    - EMPIRICAL_KEY=$EMPIRICAL_KEY
+    - EMPIRICAL_SECRET=$EMPIRICAL_SECRET
   tty: true
   stdin_open: true
   links:

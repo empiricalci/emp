@@ -9,7 +9,8 @@ FROM node:5.5.0
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 && mv docker-1.9.1 /usr/bin/docker && chmod 777 /usr/bin/docker
 
 # Install Empirical
-COPY . /emp
+COPY package.json /emp/package.json
 WORKDIR /emp
 RUN npm install
+COPY . /emp
 ENTRYPOINT ["node", "index.js"]
