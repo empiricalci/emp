@@ -15,7 +15,7 @@ dependencies:
     - ./docker-compose build emp-test
 test:
   override:
-    - ./docker-compose run emp-test
+    - ./docker-compose run emp-test run test-cov
 deployment:
   dockerhub:
     branch: master
