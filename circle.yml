@@ -10,9 +10,10 @@ dependencies:
     - curl -L https://github.com/docker/compose/releases/download/1.6.2/run.sh > $(pwd)/docker-compose
     - chmod +x ./docker-compose
     - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
+    - ./docker-compose build emp-test
 test:
   override:
-    - ./docker-compose -f integration-tests.yml run emp-test
+    - ./docker-compose run emp-test
 deployment:
   dockerhub:
     branch: master

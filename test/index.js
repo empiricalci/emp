@@ -4,7 +4,20 @@ var assert = require('assert')
 
 var docker = require('../lib/docker')
 
+function onProgress (data) {
+  console.log(data)
+}
+
 describe('Docker', function () {
+  it('should pull', function (done) {
+    this.timeout(20000)
+    docker.pull('tianon/true')
+    .then(function (data) {
+      done()
+    }).catch(function (err) {
+      done(err)
+    })
+  })
   // TODO: Get a small image and re-tag it first to test this
   it.skip('should push an image', function (done) {
     this.timeout(10000)

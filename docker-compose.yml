@@ -1,34 +1,64 @@
-queue:
-  container_name: rabbit-emp
-  image: rabbitmq:3
-  hostname: empirical-queue
-  ports:
-    - "5672:5672"
+version: '2'
+services:
+  emp-test:
+    build: .
+    image: empiricaladmin/emp
+    entrypoint: npm
+    command: run test
+    environment:
+      - EMPIRICAL_ENV=test
+      - DOCKER_AUTH=$DOCKER_AUTH
+      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
+      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
+      - EMPIRICAL_API_URI=http://empirical:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - empirical-test:empirical
+  empirical-test:
+    image: alantrrs/empirical
+    entrypoint: npm
+    command: run test-server
+    expose:
+      - 8080
+    environment:
+      - PORT=8080
+      - NODE_ENV=test
+      - TEST_DB=mongodb://mongo/empirical-test-db
+    links:
+      - mongo
+  mongo:
+    image: mongo
+  queue:
+    container_name: rabbit-emp
+    image: rabbitmq:3
+    hostname: empirical-queue
+    ports:
+      - "5672:5672"
+  emp_dev:
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/emp
+    environment:
+      - DOCKER_AUTH=$DOCKER_AUTH
+      - EMPIRICAL_KEY=$EMPIRICAL_KEY
+      - EMPIRICAL_SECRET=$EMPIRICAL_SECRET
+    tty: true
+    stdin_open: true
+    links:
+      - queue
 
-emp_dev:
-  build: .
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - .:/emp
-  environment:
-    - DOCKER_AUTH=$DOCKER_AUTH
-    - EMPIRICAL_KEY=$EMPIRICAL_KEY
-    - EMPIRICAL_SECRET=$EMPIRICAL_SECRET
-  tty: true
-  stdin_open: true
-  links:
-    - queue
-
-emp_staging:
-  extends:
-    service: emp
-  environment:
-    - EMPIRICAL_ENV=staging
-    - EMPIRICAL_AMQP_URL=$EMPIRICAL_AMQP_URL_STAGING
-emp:
-  build: .
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - .:/emp
-  tty: true
-  stdin_open: true
+  emp_staging:
+    extends:
+      service: emp
+    environment:
+      - EMPIRICAL_ENV=staging
+      - EMPIRICAL_AMQP_URL=$EMPIRICAL_AMQP_URL_STAGING
+  emp:
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/emp
+    tty: true
+    stdin_open: true
