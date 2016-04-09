@@ -1,12 +1,29 @@
 /* eslint-env mocha */
 
 var assert = require('assert')
+var fetch = require('node-fetch')
 
 var docker = require('../lib/docker')
 
 function onProgress (data) {
   console.log(data)
 }
+
+before(function (done) {
+  // Wait for the server to be up
+  this.timeout(60000)
+  console.log('Waiting for the server to be up')
+  function waitForIt() {
+    console.log('.')
+    return fetch(process.env.EMPIRICAL_API_URI).then(function (res) {
+      if (res.ok) return done()
+      setTimeout(waitForIt,2000)
+    }).catch(function (err) {
+      setTimeout(waitForIt,2000)
+    })
+  }
+  waitForIt()
+})
 
 describe('Docker', function () {
   it('should pull', function (done) {
