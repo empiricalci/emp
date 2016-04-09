@@ -14,8 +14,10 @@ dependencies:
     - docker pull mongo
     - ./docker-compose build emp-test
 test:
+  pre:
+    - echo "DOCKER_AUTH=$DOCKER_AUTH" > auth.env
   override:
-    - ./docker-compose run emp-test run test-cov
+    - ./docker-compose run emp-test-circle run test-cov
 deployment:
   dockerhub:
     branch: master
