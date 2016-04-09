@@ -19,6 +19,7 @@ services:
     image: alantrrs/empirical
     entrypoint: npm
     command: run test-server
+    hostname: empirical
     environment:
       - PORT=8080
       - NODE_ENV=test
