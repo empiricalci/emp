@@ -7,6 +7,16 @@ function onProgress (data) {
   console.log(data)
 }
 
+function waitForIt(done) {
+  return fetch(process.env.EMPIRICAL_API_URI).then(function (res) {
+    return done()
+  }).catch(function (err) {
+    setTimeout(function () {
+      waitForIt(done)
+    },2000)
+  })
+}
+
 var docker = require('../lib/docker')
 describe('Docker', function () {
   it('should pull', function (done) {
@@ -29,19 +39,11 @@ describe('Docker', function () {
   })
 })
 
-var client = require('../lib/client')
-
 describe('Client', function () {
+  var client = require('../lib/client')
   before(function (done) {
     this.timeout(30000)
-    function waitForIt() {
-      return fetch(process.env.EMPIRICAL_API_URI).then(function (res) {
-        return done()
-      }).catch(function (err) {
-        setTimeout(waitForIt,2000)
-      })
-    }
-    waitForIt()
+    waitForIt(done)
   })
   it('updates a build', function (done) {
     client.updateBuild({
@@ -59,3 +61,20 @@ describe('Client', function () {
     }).catch(done)
   })
 })
+
+describe('emp', function () {
+  var emp = require('../lib')
+  before(function (done) {
+    this.timeout(30000)
+    waitForIt(done)
+  })
+  it.skip('builds an evaluator')
+  it.skip('builds and run a standalone experiment')
+  it('builds and run a solver experiment', function (done) {
+    var task = require('./build.json')
+    emp.runTask(task).then(function() {
+      done()
+    }).catch(done)
+  })
+})
+
