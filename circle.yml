@@ -6,16 +6,16 @@ machine:
   services:
     - docker
 dependencies:
+  pre:
+    - echo "DOCKER_AUTH=$DOCKER_AUTH" > auth.env
   override: 
     - curl -L https://github.com/docker/compose/releases/download/1.6.2/run.sh > $(pwd)/docker-compose
     - chmod +x ./docker-compose
     - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
     - docker pull alantrrs/empirical
     - docker pull mongo
-    - ./docker-compose build emp-test
+    - ./docker-compose build emp-test-circle
 test:
-  pre:
-    - echo "DOCKER_AUTH=$DOCKER_AUTH" > auth.env
   override:
     - ./docker-compose run emp-test-circle run test-cov
 deployment:
