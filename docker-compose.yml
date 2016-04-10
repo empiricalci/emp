@@ -7,6 +7,7 @@ services:
     command: run test
     env_file: auth.env
     environment:
+      - DOCKER_USER=empiricaladmin
       - EMPIRICAL_ENV=test
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
@@ -22,6 +23,7 @@ services:
     command: run test
     environment:
       - EMPIRICAL_ENV=test
+      - DOCKER_USER=empiricaladmin
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
@@ -51,30 +53,23 @@ services:
     hostname: empirical-queue
     ports:
       - "5672:5672"
-  emp_dev:
+  emp-dev:
     build: .
+    entrypoint: bash
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - .:/emp
+      - ./package.json:/emp/package.json
+      - ./lib:/emp/lib
+      - ./test:/emp/test
+      - ./config:/emp/config
+      - ./index.js:/emp/index.js
     environment:
+      - DOCKER_USER=empiricaladmin
       - DOCKER_AUTH=$DOCKER_AUTH
-      - EMPIRICAL_KEY=$EMPIRICAL_KEY
-      - EMPIRICAL_SECRET=$EMPIRICAL_SECRET
-    tty: true
+      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
+      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
+      - EMPIRICAL_API_URI=http://empirical:5555
     stdin_open: true
     links:
+      - empirical
       - queue
-
-  emp_staging:
-    extends:
-      service: emp
-    environment:
-      - EMPIRICAL_ENV=staging
-      - EMPIRICAL_AMQP_URL=$EMPIRICAL_AMQP_URL_STAGING
-  emp:
-    build: .
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - .:/emp
-    tty: true
-    stdin_open: true

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon index.js",
     "lint": "standard",
-    "test": "mocha test/index.js",
+    "test": "EMPIRICAL_ENV=test mocha test/index.js",
+    "test-client": "EMPIRICAL_ENV=test mocha test/client.js",
     "test-cov": "EMPIRICAL_ENV=test istanbul cover _mocha -- -u exports -R spec test/index.js"
   },
   "repository": {
