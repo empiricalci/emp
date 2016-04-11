@@ -38,16 +38,24 @@ describe('Client', function () {
 
 describe('emp', function () {
   var emp = require('../lib')
+  var builds = require('./builds.json')
   before(function (done) {
     this.timeout(30000)
     waitForIt(done)
   })
-  it.skip('builds an evaluator')
+  it('builds an evaluator', function (done) {
+    this.timeout(60000)
+    emp.runTask(builds.evaluator).then(function () {
+      // TODO: Assert the image exists
+      done()
+    }).catch(done)
+  })
   it.skip('builds and run a standalone experiment')
   it('builds and run a solver experiment', function (done) {
     this.timeout(10000)
-    var task = require('./build.json')
-    emp.runTask(task).then(function () {
+    emp.runTask(builds.solver).then(function () {
+      // TODO: assert the image exists
+      // TODO: assert the results are updated correctly
       done()
     }).catch(done)
   })
