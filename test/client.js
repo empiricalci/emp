@@ -44,7 +44,7 @@ describe('emp', function () {
     waitForIt(done)
   })
   it('builds an evaluator', function (done) {
-    this.timeout(60000)
+    this.timeout(120000)
     emp.runTask(builds.evaluator).then(function () {
       // TODO: Assert the image exists
       done()
