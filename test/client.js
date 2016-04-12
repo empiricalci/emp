@@ -13,45 +13,59 @@ function waitForIt (done) {
   })
 }
 
-describe('Client', function () {
-  var client = require('../lib/client')
+var emp = require('../lib')
+var client = emp.client
+var git = emp.git
+
+var builds = require('./builds.json')
+
+describe('EMP', function () {
   before(function (done) {
     this.timeout(30000)
     waitForIt(done)
   })
-  it('updates a build', function (done) {
+  var test_build = builds.solver
+  it('client updates a build', function (done) {
+    this.timeout(5000)
     client.updateBuild({
-      _id: '56f5da4e49b2e7531469c3ef',
+      _id: test_build._id,
       status: 'success'
     }).then(function () {
       done()
     }).catch(done)
   })
-  it('gets project keys', function (done) {
-    client.getKeys('/tmp', 'empirical-bot', 'my-solver').then(function (res) {
+  var keys
+  it('client gets project keys', function (done) {
+    this.timeout(5000)
+    client.getKeys('/tmp', test_build.project_owner, test_build.project_name).then(function (res) {
       assert(res.public_key)
       assert(res.private_key)
+      keys = res
       done()
     }).catch(done)
   })
-})
-
-describe('emp', function () {
-  var emp = require('../lib')
-  var builds = require('./builds.json')
-  before(function (done) {
-    this.timeout(30000)
-    waitForIt(done)
-  })
-  it('builds an evaluator', function (done) {
+  it('git clones a repository', function (done) {
     this.timeout(300000)
-    emp.runTask(builds.evaluator).then(function () {
-      // TODO: Assert the image exists
-      done()
+    git.cloneRepository(
+      test_build.ssh_url,
+      keys,
+      test_build.head_sha,
+      '/tmp/' + test_build._id
+    ).then(function (repo) {
+      repo.getHeadCommit().then(function (commit) {
+        assert.equal(test_build.head_sha, commit.sha())
+        done()
+      })
     }).catch(done)
   })
+  it.skip('reads experiment config')
+  it.skip('create sessions directories')
+  it.skip('builds image')
+  it.skip('run standalone experiment')
+  it.skip('run solver experiment')
+  it.skip('logs')
   // TODO: Get a standalone experiment of the right
-  it('builds and run a standalone experiment', function (done) {
+  it.skip('builds and run a standalone experiment', function (done) {
     this.timeout(300000)
     // user key/secret for admin user
     emp.client.setAuth(
@@ -59,14 +73,6 @@ describe('emp', function () {
       '9b01c60c-56de-4ff2-8604-802c99f11d72'
     )
     emp.runTask(builds.standalone).then(function () {
-      done()
-    }).catch(done)
-  })
-  it('builds and run a solver experiment', function (done) {
-    this.timeout(10000)
-    emp.runTask(builds.solver).then(function () {
-      // TODO: assert the image exists
-      // TODO: assert the results are updated correctly
       done()
     }).catch(done)
   })
