@@ -50,7 +50,18 @@ describe('emp', function () {
       done()
     }).catch(done)
   })
-  it.skip('builds and run a standalone experiment')
+  // TODO: Get a standalone experiment of the right
+  it('builds and run a standalone experiment', function (done) {
+    this.timeout(300000)
+    // user key/secret for admin user
+    emp.client.setAuth(
+      '56fa1e9c444d666624705d15',
+      '9b01c60c-56de-4ff2-8604-802c99f11d72'
+    )
+    emp.runTask(builds.standalone).then(function () {
+      done()
+    }).catch(done)
+  })
   it('builds and run a solver experiment', function (done) {
     this.timeout(10000)
     emp.runTask(builds.solver).then(function () {

@@ -32,6 +32,27 @@
     "head_msg" : "Merge pull request #1 from empirical-bot/new-schema\n\nUse new experiment schema",
     "label" : "NyTRSIVyW",
     "__v" : 0
+  },
+  "standalone": {
+    "_id" : "56fe1f7d4cd9176e48b5541f",
+    "user_id" : "56fa1e9c444d666624705d15",
+    "project_id" : "56fddb56dfd861823922c48d",
+    "project_name" : "hello-world",
+    "project_owner" : "administrator",
+    "project_interface" : "standalone",
+    "ssh_url" : "git@github.com:empirical-bot/hello-world.git",
+    "https_url" : "https://github.com/empirical-bot/hello-world.git",
+    "status" : "queued",
+    "branch" : "master",
+    "head_sha" : "a1082947544f061a4360a908610cb44e8e3cb15f",
+    "head_msg" : "inital commit",
+    "label" : "4JAq0-vCl",
+    "__v" : 0,
+    "overall" : {
+        "value" : 1,
+        "type" : "table",
+        "metric" : "Accuracy"
+    }
   }
 }
 
