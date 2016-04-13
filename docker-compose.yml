@@ -57,6 +57,7 @@ services:
   emp-dev:
     build: .
     entrypoint: bash
+    image: empiricaladmin/emp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./package.json:/emp/package.json

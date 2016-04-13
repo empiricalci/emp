@@ -23,5 +23,4 @@ deployment:
     branch: master
     commands:
       - docker logout
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push empiricaladmin/emp
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS && docker push empiricaladmin/emp
