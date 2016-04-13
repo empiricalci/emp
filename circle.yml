@@ -23,4 +23,5 @@ deployment:
     branch: master
     commands:
       - docker logout
+      - rm -f /home/ubuntu/.docker/config.json
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS && docker push empiricaladmin/emp
