@@ -14,19 +14,30 @@ function waitForIt (done) {
   })
 }
 
-var emp = require('../lib')
-var client = emp.client
-var git = emp.git
-
+// Test data
 var builds = require('./builds.json')
+var test_solver = builds.solver
+var test_dir = '/tmp/' + test_solver._id
+
+// Lib
+var emp, client, git
 
 describe('EMP:', function () {
   before(function (done) {
     this.timeout(30000)
-    waitForIt(done)
+    // Get the ip of the empirical server
+    var Docker = require('dockerode')
+    var docker = new Docker({socketPath: '/var/run/docker.sock'})
+    docker.getContainer('empirical').inspect(function (err, data) {
+      if (err) done(err)
+      process.env['EMPIRICAL_API_URI'] = 'http://' + data.NetworkSettings.Networks.emp_default.IPAddress + ':5555'
+      // Initialize library
+      emp = require('../lib')
+      client = emp.client
+      git = emp.git
+      waitForIt(done)
+    })
   })
-  var test_solver = builds.solver
-  var test_dir = '/tmp/' + test_solver._id
   it('client updates a build', function (done) {
     this.timeout(5000)
     client.updateBuild({
@@ -77,16 +88,6 @@ describe('EMP:', function () {
     })
   })
   describe('Solver', function () {
-    before(function (done) {
-      // Get the ip of the empirical server
-      var Docker = require('dockerode')
-      var docker = new Docker({socketPath: '/var/run/docker.sock'})
-      docker.getContainer('empirical').inspect(function (err, data) {
-        // TODO: GET IP
-        if (err) done(err)
-        done()
-      })
-    })
     it.skip('fails if it does not contain evaluator')
     var experiment
     it('validates experiment config', function () {
