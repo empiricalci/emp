@@ -24,6 +24,6 @@ deployment:
     commands:
       - docker logout
       - cat /home/ubuntu/.docker/config.json
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS https://index.docker.io/v1/
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS docker.io
       - cat /home/ubuntu/.docker/config.json
       - docker push empiricaladmin/emp
