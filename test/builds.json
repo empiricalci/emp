@@ -19,6 +19,7 @@
   },
   "solver": {
     "_id" : "56fe381a90031e0005d15ed8",
+    "full_name": "empirical-bot/my-solver:VJsNP7PCe",
     "user_id" : "56f21e9c444d700624705d16",
     "project_id" : "56f4d7004d60f8e547176da3",
     "project_name" : "my-solver",
@@ -28,6 +29,7 @@
     "https_url" : "https://github.com/empirical-bot/my-solver.git",
     "status" : "failed",
     "branch" : "master",
+    "evaluator" : "empirical-bot/my-evaluator:NyTRSIVyW",
     "head_sha" : "d282a33749809e36f4c9d6eb820dd82990b2ce3b",
     "head_msg" : "Update empirical.yml",
     "label" : "VJsNP7PCe",

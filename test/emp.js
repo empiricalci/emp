@@ -36,6 +36,13 @@ describe('EMP:', function () {
       done()
     }).catch(done)
   })
+  it('client gets a build', function (done) {
+    this.timeout(5000)
+    client.getBuild(test_solver.full_name).then(function (build) {
+      assert.equal(test_solver.full_name, build.full_name)
+      done()
+    }).catch(done)
+  })
   var keys
   it('client gets project keys', function (done) {
     this.timeout(5000)
@@ -61,17 +68,47 @@ describe('EMP:', function () {
     }).catch(done)
   })
   it.skip('create sessions directories')
+  describe.skip('Evaluator', function () {
+    it('checkouts, builds and push the image', function (done) {
+      this.timeout(300000)
+      emp.runTask(builds.evaluator).then(function () {
+        done()
+      }).catch(done)
+    })
+  })
   describe('Solver', function () {
+    before(function (done) {
+      // Get the ip of the empirical server
+      var Docker = require('dockerode')
+      var docker = new Docker({socketPath: '/var/run/docker.sock'})
+      docker.getContainer('empirical').inspect(function (err, data) {
+        // TODO: GET IP
+        if (err) done(err)
+        done()
+      })
+    })
     it.skip('fails if it does not contain evaluator')
+    var experiment
     it('validates experiment config', function () {
-      var experiment = emp.readExperimentConfig(test_dir, test_solver)
+      experiment = emp.readExperimentConfig(test_dir, test_solver)
       assert.equal(experiment.type, 'solver')
       assert(experiment.evaluator)
       assert(experiment.environment.tag)
     })
-    it.skip('builds image')
+    it('builds image', function (done) {
+      this.timeout(300000)
+      emp.buildImage(experiment.environment, test_dir).then(function () {
+        // TODO: Assert image exists
+        done()
+      }).catch(done)
+    })
     it.skip('run solver experiment', function (done) {
-      emp.runExperiment(test_solver)
+      // FIXME: GET IP of empirical server to post results
+      this.timeout(300000)
+      emp.runExperiment(test_solver).then(function () {
+        // TODO: Assert results?
+        done()
+      }).catch(done)
     })
   })
   describe('Standalone', function () {
@@ -85,10 +122,6 @@ describe('EMP:', function () {
     it.skip('validates experiment config')
     it.skip('builds image')
     it.skip('runs experiment')
-  })
-  describe('Evaluator', function () {
-    it.skip('validates experiment config')
-    it.skip('builds image')
   })
   it.skip('logs')
   after(function (done) {
