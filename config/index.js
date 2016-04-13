@@ -13,15 +13,15 @@ config.amqp = {
   queue: ENV ? 'builds:' + ENV : 'builds:development'
 }
 
-const endpoints = {
-  development: 'http://empiricaldev.localtunnel.me',
-  staging: 'http://qa.empiricalci.com',
-  production: 'http://empiricalci.com'
+config.client = {
+  key: process.env.EMPIRICAL_API_KEY,
+  secret: process.env.EMPIRICAL_API_SECRET,
+  root: process.env.EMPIRICAL_API_URI || 'http://empiricalci.com'
 }
 
-// TODO: Add auth via key + secret
-config.client = {
-  root: ENV ? endpoints[ENV] : endpoints.development
+config.registry = {
+  user: process.env.DOCKER_USER,
+  auth: process.env.DOCKER_AUTH
 }
 
 module.exports = config
