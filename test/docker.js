@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 
 var docker = require('../lib/docker')
 describe('Docker', function () {

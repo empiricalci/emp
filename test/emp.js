@@ -65,7 +65,7 @@ describe('EMP:', function () {
     it.skip('fails if it does not contain evaluator')
     it('validates experiment config', function () {
       var experiment = emp.readExperimentConfig(test_dir, test_solver)
-      assert.equal(experiment.type,'solver')
+      assert.equal(experiment.type, 'solver')
       assert(experiment.evaluator)
       assert(experiment.environment.tag)
     })
