@@ -20,7 +20,7 @@ test:
     - ./docker-compose run emp-test-circle run test-cov
 deployment:
   dockerhub:
-    branch: master
+    branch: skip-deploy
     commands:
       - docker logout
       - cat /home/ubuntu/.docker/config.json
