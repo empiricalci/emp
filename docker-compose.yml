@@ -52,6 +52,8 @@ services:
     container_name: rabbit-emp
     image: rabbitmq:3
     hostname: empirical-queue
+    expose:
+      - 5672
     ports:
       - "5672:5672"
   emp-dev:
@@ -68,10 +70,9 @@ services:
     environment:
       - DOCKER_USER=empiricaladmin
       - DOCKER_AUTH=$DOCKER_AUTH
-      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
-      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
+      - EMPIRICAL_API_KEY=$EMPIRICAL_API_KEY
+      - EMPIRICAL_API_SECRET=$EMPIRICAL_API_SECRET
       - EMPIRICAL_API_URI=http://empirical:5555
     stdin_open: true
     links:
-      - empirical
-      - queue
+      - queue:empirical-queue
