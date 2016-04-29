@@ -20,10 +20,10 @@ test:
     - ./docker-compose run emp-test-circle run test-cov
 deployment:
   dockerhub:
-    branch: skip-deploy
+    branch: master
     commands:
       - docker logout
       - cat /home/ubuntu/.docker/config.json
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS docker.io
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - cat /home/ubuntu/.docker/config.json
       - docker push empiricaladmin/emp
