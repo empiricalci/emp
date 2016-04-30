@@ -1,21 +1,5 @@
 version: '2'
 services:
-  emp-test-circle:
-    build: .
-    image: empiricaladmin/emp
-    entrypoint: npm
-    command: run test
-    env_file: auth.env
-    environment:
-      - DOCKER_USER=empiricaladmin
-      - EMPIRICAL_ENV=test
-      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
-      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
-      - EMPIRICAL_API_URI=http://empirical:5555
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    links:
-      - empirical
   emp-test:
     build: .
     image: empiricaladmin/emp
@@ -52,13 +36,12 @@ services:
     container_name: rabbit-emp
     image: rabbitmq:3
     hostname: empirical-queue
-    expose:
-      - 5672
     ports:
       - "5672:5672"
-  emp-dev:
+  emp:
     build: .
-    entrypoint: bash
+    network_mode: 'host'
+    entrypoint: npm start
     image: empiricaladmin/emp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -72,7 +55,7 @@ services:
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=$EMPIRICAL_API_KEY
       - EMPIRICAL_API_SECRET=$EMPIRICAL_API_SECRET
-      - EMPIRICAL_API_URI=http://empirical:5555
+      - EMPIRICAL_AMQP_URL=amqp://localhost:5672
     stdin_open: true
-    links:
-      - queue:empirical-queue
+    depends_on:
+      - queue
