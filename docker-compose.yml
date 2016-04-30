@@ -36,13 +36,12 @@ services:
     container_name: rabbit-emp
     image: rabbitmq:3
     hostname: empirical-queue
-    expose:
-      - 5672
     ports:
       - "5672:5672"
-  emp-dev:
+  emp:
     build: .
-    entrypoint: bash
+    network_mode: 'host'
+    entrypoint: npm start
     image: empiricaladmin/emp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -56,7 +55,7 @@ services:
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=$EMPIRICAL_API_KEY
       - EMPIRICAL_API_SECRET=$EMPIRICAL_API_SECRET
-      - EMPIRICAL_API_URI=http://empirical:5555
+      - EMPIRICAL_AMQP_URL=amqp://localhost:5672
     stdin_open: true
-    links:
-      - queue:empirical-queue
+    depends_on:
+      - queue
