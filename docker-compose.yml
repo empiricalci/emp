@@ -6,6 +6,7 @@ services:
     entrypoint: npm
     command: run test-cov
     environment:
+      - CIRCLECI=$CIRCLECI
       - EMPIRICAL_ENV=test
       - DOCKER_USER=empiricaladmin
       - DOCKER_AUTH=$DOCKER_AUTH
