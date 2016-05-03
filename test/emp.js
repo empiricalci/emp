@@ -31,7 +31,8 @@ describe('EMP:', function () {
     docker.getContainer('empirical').inspect(function (err, data) {
       if (err) done(err)
       process.env['EMPIRICAL_API_URI'] = 'http://' + data.NetworkSettings.Networks.emp_default.IPAddress + ':5555'
-      // Initialize library
+      console.log('EMPIRICAL_API_URI:', process.env.EMPIRICAL_API_URI)
+    // Initialize library
       emp = require('../lib')
       client = emp.client
       git = emp.git
@@ -103,7 +104,7 @@ describe('EMP:', function () {
         done()
       }).catch(done)
     })
-    it.skip('run solver experiment', function (done) {
+    it('run solver experiment', function (done) {
       // FIXME: GET IP of empirical server to post results
       this.timeout(300000)
       emp.runExperiment(test_solver).then(function () {

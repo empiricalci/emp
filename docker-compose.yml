@@ -4,17 +4,18 @@ services:
     build: .
     image: empiricaladmin/emp
     entrypoint: npm
-    command: run test
+    command: run test-cov
     environment:
       - EMPIRICAL_ENV=test
       - DOCKER_USER=empiricaladmin
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
-      - EMPIRICAL_API_URI=http://empirical:5555
+      - EMPIRICAL_API_URI=http://localhost:5555
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    links:
+    network_mode: 'host'
+    depends_on:
       - empirical
   empirical:
     image: alantrrs/empirical
@@ -22,8 +23,8 @@ services:
     command: run test-server
     container_name: empirical
     hostname: empirical
-    expose:
-      - 5555
+    ports:
+      - "5555:5555"
     environment:
       - PORT=5555
       - NODE_ENV=test
