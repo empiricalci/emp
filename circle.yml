@@ -13,13 +13,12 @@ dependencies:
     - ./docker-compose build emp-test
 test:
   override:
+    - ./docker-compose run --no-deps emp-test run lint
     - ./docker-compose run emp-test run test-cov
 deployment:
   dockerhub:
     branch: master
     commands:
       - docker logout
-      - cat /home/ubuntu/.docker/config.json
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - cat /home/ubuntu/.docker/config.json
       - docker push empiricaladmin/emp
