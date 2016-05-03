@@ -11,7 +11,7 @@ services:
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
-      - EMPIRICAL_API_URI=http://localhost:5555
+      - EMPIRICAL_API_URI=http://empiricaldev.localtunnel.me
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     network_mode: 'host'
@@ -26,8 +26,8 @@ services:
     ports:
       - "5555:5555"
     environment:
+      - LOCALTUNNEL=true
       - PORT=5555
-      - NODE_ENV=test
       - TEST_DB=mongodb://mongo/empirical-test-db
     links:
       - mongo
