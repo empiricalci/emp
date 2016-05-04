@@ -2,7 +2,7 @@ version: '2'
 services:
   emp-test:
     build: .
-    image: empiricaladmin/emp
+    image: empiricalci/emp
     entrypoint: npm
     command: run test-cov
     environment:
@@ -19,7 +19,7 @@ services:
     depends_on:
       - empirical
   empirical:
-    image: alantrrs/empirical
+    image: empiricalci/empirical
     entrypoint: npm
     command: run test-server
     container_name: empirical
@@ -44,7 +44,7 @@ services:
     build: .
     network_mode: 'host'
     entrypoint: npm start
-    image: empiricaladmin/emp
+    image: empiricalci/emp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./package.json:/emp/package.json

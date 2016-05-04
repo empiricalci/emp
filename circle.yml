@@ -8,7 +8,7 @@ dependencies:
     - curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > $(pwd)/docker-compose
     - chmod +x ./docker-compose
     - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
-    - docker pull alantrrs/empirical
+    - docker pull empiricalci/empirical
     - docker pull mongo
     - ./docker-compose build emp-test
 test:
@@ -19,6 +19,4 @@ deployment:
   dockerhub:
     branch: master
     commands:
-      - docker logout
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push empiricaladmin/emp
+      - docker push empiricalci/emp
