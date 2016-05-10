@@ -14,7 +14,7 @@ dependencies:
 test:
   override:
     - ./docker-compose run --no-deps emp-test run lint
-    - ./docker-compose run emp-test run test-cov
+    - LOCALTUNNEL=empcircle ./docker-compose run emp-test run test-cov
 deployment:
   dockerhub:
     branch: master

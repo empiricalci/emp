@@ -41,3 +41,11 @@ docker-compose up emp
 ```
 This command will create a queue container with rabbit-mq and the emp container that runs the worker
 consuming the tasks
+
+## Test
+The tests for the empirical client are run in conjuntion with the empirical server. 
+So you should have the Docker image for it ``empiricalci/empirical``.
+You also need to provide a localtunnel subdomain for the client to reach the server.
+```
+LOCALTUNNEL=my-custom-subdomain docker-compose run emp-test
+```

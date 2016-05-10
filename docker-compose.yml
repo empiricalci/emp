@@ -12,12 +12,17 @@ services:
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
-      - EMPIRICAL_API_URI=http://empiricaldev.localtunnel.me
+      - EMPIRICAL_API_URI=http://$LOCALTUNNEL.localtunnel.me
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     network_mode: 'host'
     depends_on:
       - empirical
+      - tunnel
+  tunnel:
+    image: empiricalci/empirical
+    entrypoint: lt -p 5555 -s $LOCALTUNNEL
+    network_mode: 'host'
   empirical:
     image: empiricalci/empirical
     entrypoint: npm
@@ -27,7 +32,7 @@ services:
     ports:
       - "5555:5555"
     environment:
-      - LOCALTUNNEL=true
+      - LOCALTUNNEL=$LOCALTUNNEL
       - PORT=5555
       - TEST_DB=mongodb://mongo/empirical-test-db
     links:
