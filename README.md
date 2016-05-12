@@ -37,7 +37,7 @@ docker-compose build emp
 ### Run the worker
 The tool is currently implemented as a worker that will connect to a queue to get tasks. Run it by doing:
 ```
-docker-compose up emp
+EMPIRICAL_API_URI=http://url-to-your-develoment-server.com docker-compose up emp
 ```
 This command will create a queue container with rabbit-mq and the emp container that runs the worker
 consuming the tasks

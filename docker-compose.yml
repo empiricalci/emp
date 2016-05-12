@@ -63,7 +63,7 @@ services:
       - EMPIRICAL_API_KEY=56fa1e9c444d666624705d15
       - EMPIRICAL_API_SECRET=9b01c60c-56de-4ff2-8604-802c99f11d72
       - EMPIRICAL_AMQP_URL=amqp://localhost:5672
-      - EMPIRICAL_API_URI=http://localhost:5000
+      - EMPIRICAL_API_URI=$EMPIRICAL_API_URI
     stdin_open: true
     depends_on:
       - queue
