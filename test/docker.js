@@ -20,5 +20,6 @@ describe('Docker', function () {
       done(err)
     })
   })
+  it('runs with a volume attached')
 })
 

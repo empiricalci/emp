@@ -23,6 +23,7 @@
   "dependencies": {
     "amqplib": "^0.4.0",
     "atob": "^2.0.3",
+    "dataset-cache": "empiricalci/dataset-cache",
     "dockerode": "alantrrs/dockerode",
     "node-fetch": "^1.3.3",
     "nodegit": "^0.11.9",

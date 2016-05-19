@@ -24,7 +24,12 @@ in your ``~/.bashrc`` for convinience
 export DOCKER_USER=your-docker-user
 export DOCKER_AUTH='{the auth token found on ~/.docker/config.json}'
 ```
-
+### Empirical directory
+Empirical uses a directory to cache all the datasets downloaded and to save any files generated during the
+tests or experiments. You need to set this up:
+```
+export EMPIRICAL_DIR=/path/to/empirical
+```
 
 ## Use
 ### Build the image

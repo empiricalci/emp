@@ -49,7 +49,8 @@ services:
     build: .
     image: empiricalci/emp
     network_mode: 'host'
-    entrypoint: npm start
+    entrypoint: npm
+    command: start
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./package.json:/emp/package.json
@@ -57,6 +58,8 @@ services:
       - ./test:/emp/test
       - ./config:/emp/config
       - ./index.js:/emp/index.js
+      - $EMPIRICAL_DIR/data:/empirical/data
+      - $EMPIRICAL_DIR/workspaces:/empirical/workspaces
     environment:
       - DOCKER_USER=$DOCKER_USER
       - DOCKER_AUTH=$DOCKER_AUTH
@@ -64,6 +67,7 @@ services:
       - EMPIRICAL_API_SECRET=9b01c60c-56de-4ff2-8604-802c99f11d72
       - EMPIRICAL_AMQP_URL=amqp://localhost:5672
       - EMPIRICAL_API_URI=$EMPIRICAL_API_URI
+      - EMPIRICAL_DIR=$EMPIRICAL_DIR
     stdin_open: true
     depends_on:
       - queue
