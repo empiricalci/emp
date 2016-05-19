@@ -21,20 +21,23 @@ config.client = {
   root: process.env.EMPIRICAL_API_URI || 'http://empiricalci.com'
 }
 
-// Decode auth
-var auth = atob(process.env.DOCKER_AUTH)
-var creds = auth.split(':')
-if (creds.length === 2) {
-  // auth looks like user:password
-  config.registry = {
-    username: creds[0],
-    password: creds[1]
-  }
-} else {
-  // auth looks like {username:user,password:password,email:user@email.com}
-  config.registry = {
-    username: process.env.DOCKER_USER,
-    key: process.env.DOCKER_AUTH
+config.registry = {}
+if (process.env.DOCKER_AUTH) {
+  // Decode auth
+  var auth = atob(process.env.DOCKER_AUTH)
+  var creds = auth.split(':')
+  if (creds.length === 2) {
+    // auth looks like user:password
+    config.registry = {
+      username: creds[0],
+      password: creds[1]
+    }
+  } else {
+    // auth looks like {username:user,password:password,email:user@email.com}
+    config.registry = {
+      username: process.env.DOCKER_USER,
+      key: process.env.DOCKER_AUTH
+    }
   }
 }
 

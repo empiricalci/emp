@@ -47,6 +47,16 @@ EMPIRICAL_API_URI=http://url-to-your-develoment-server.com docker-compose up emp
 This command will create a queue container with rabbit-mq and the emp container that runs the worker
 consuming the tasks
 
+### Run from CLI
+Running the tool directly from the CLI is helpful to quickly test an experiment without having to communicate 
+with the server or go through GitHub. You can run your experiments by doing:
+```
+ ./bin/run.sh experiment-name /path/to/code
+```
+This will build and run ``experiment-name`` defined in ``/path/to/code/empirical.yml``. 
+**NOTE:** Currently only works for standalone experiments.
+
+
 ## Test
 The tests for the empirical client are run in conjuntion with the empirical server. 
 So you should have the Docker image for it ``empiricalci/empirical``.
