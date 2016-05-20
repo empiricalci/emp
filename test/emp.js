@@ -15,8 +15,11 @@ function waitForIt (done) {
 }
 
 // Test data
-var builds = require('./builds.json')
-var test_solver = builds.solver
+var builds = require('../node_modules/fixtures/builds.json')
+var test_solver = builds[0]
+test_solver.full_name = `${test_solver.project_owner}/${test_solver.project_name}:${test_solver.label}`
+var test_evaluator = builds[3]
+test_evaluator.full_name = `${test_evaluator.project_owner}/${test_evaluator.project_name}:${test_evaluator.label}`
 var test_dir = '/tmp/' + test_solver._id
 
 // Lib
@@ -73,7 +76,7 @@ describe('EMP:', function () {
   describe.skip('Evaluator', function () {
     it('checkouts, builds and push the image', function (done) {
       this.timeout(300000)
-      emp.runTask(builds.evaluator).then(function () {
+      emp.runTask(test_evaluator).then(function () {
         done()
       }).catch(done)
     })
@@ -95,7 +98,6 @@ describe('EMP:', function () {
       }).catch(done)
     })
     it('run solver experiment', function (done) {
-      // FIXME: GET IP of empirical server to post results
       this.timeout(300000)
       emp.runExperiment(test_solver).then(function () {
         // TODO: Assert results?

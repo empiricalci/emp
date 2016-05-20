@@ -12,7 +12,7 @@ services:
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
       - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
-      - EMPIRICAL_API_URI=http://$LOCALTUNNEL.localtunnel.me
+      - EMPIRICAL_API_URI=http://$LOCALTUNNEL.tunnel.empiricalci.com
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     network_mode: 'host'
@@ -21,7 +21,7 @@ services:
       - tunnel
   tunnel:
     image: empiricalci/empirical
-    entrypoint: lt -p 5555 -s $LOCALTUNNEL
+    entrypoint: lt -p 5555 -s $LOCALTUNNEL -h http://tunnel.empiricalci.com
     network_mode: 'host'
   empirical:
     image: empiricalci/empirical

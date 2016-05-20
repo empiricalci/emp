@@ -25,6 +25,7 @@
     "atob": "^2.0.3",
     "dataset-cache": "empiricalci/dataset-cache",
     "dockerode": "alantrrs/dockerode",
+    "fixtures": "empiricalci/fixtures",
     "node-fetch": "^1.3.3",
     "nodegit": "^0.11.9",
     "shortid": "^2.2.4",
