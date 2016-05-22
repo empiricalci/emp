@@ -7,6 +7,7 @@ var fs = require('fs')
 // Test data
 const test_standalone = {_id: '56fe1f7d4cd9176e48b5541f'}
 const standalone_with_data = {_id: '573c1a1be041df2d00d5b96e'}
+const standalone_with_workspace = {_id: '5741796e2799482b002aa493'}
 const test_solver = {_id: '56fe381a90031e0005d15ed8', full_name: 'empirical-bot/my-solver:VJsNP7PCe'}
 const test_evaluator = {_id: '5719d236fe781303004ecea9'}
 
@@ -104,7 +105,11 @@ describe('Server dependant tests', function () {
         done()
       }).catch(done)
     })
-    it('should run a standalone experiment with output to workspace')
+    it('should run a standalone experiment with output to workspace', function (done) {
+      emp.runTask(standalone_with_workspace).then(function () {
+        done()
+      }).catch(done)
+    })
     it('should run an evaluator', function (done) {
       emp.runTask(test_evaluator).then(function () {
         done()
