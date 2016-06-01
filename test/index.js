@@ -5,11 +5,11 @@ var assert = require('assert')
 var fs = require('fs')
 
 // Test data
-const test_standalone = {_id: '56fe1f7d4cd9176e48b5541f'}
-const standalone_with_data = {_id: '573c1a1be041df2d00d5b96e'}
-const standalone_with_workspace = {_id: '5741796e2799482b002aa493'}
-const test_solver = {_id: '56fe381a90031e0005d15ed8', full_name: 'empirical-bot/my-solver:VJsNP7PCe'}
-const test_evaluator = {_id: '5719d236fe781303004ecea9'}
+const test_standalone = {full_name: 'empiricalci/hello-world/hello-world/4JAq0-vCl'}
+const standalone_with_data = {full_name: 'empiricalci/hello-world/hello-world/r1Q7q9YM'}
+const standalone_with_workspace = {full_name: 'empiricalci/hello-world/hello-world/SywuYx17'}
+const test_solver = {full_name: 'empirical-bot/my-solver/my-solver/VJsNP7PCe'}
+const test_evaluator = {full_name: 'empirical-bot/my-evaluator/my-evaluator/4JDL-aGgW'}
 
 describe('Library', function () {
   var emp = require('../lib')
@@ -30,8 +30,8 @@ describe('Library', function () {
     it('should succed with valid standalone config', function () {
       var experiment = emp.readExperimentConfig('./node_modules/fixtures/standalone_project', {
         _id: '342434234',
-        project_name: 'hello-world',
-        project_interface: 'standalone'
+        name: 'hello-world',
+        type: 'standalone'
       })
       assert.equal(experiment.type, 'standalone')
       assert(experiment.environment.tag)
@@ -41,6 +41,7 @@ describe('Library', function () {
   it('should get a datset')
   describe('runExperiment', function () {
     it('should run a sandalone experiment', function (done) {
+      this.timeout(300000)
       emp.runExperiment({
         _id: 'some_id',
         type: 'standalone',
@@ -62,16 +63,16 @@ describe('Server dependant tests', function () {
   })
   describe('Client', function () {
     var client = require('../lib/client')
-    it('should update a build', function (done) {
+    it('should update experiment', function (done) {
       this.timeout(5000)
-      client.updateBuild({
-        _id: test_solver._id,
-        status: 'success'
-      }).then(function () {
+      client.updateExperiment(test_standalone.full_name, {
+        status: 'test'
+      }).then(function (res) {
+        assert.equal(res.status, 'test')
         done()
       }).catch(done)
     })
-    it('should get a build', function (done) {
+    it.skip('should get a build', function (done) {
       this.timeout(5000)
       client.getBuild(test_solver.full_name).then(function (build) {
         assert.equal(test_solver.full_name, build.full_name)
@@ -80,7 +81,7 @@ describe('Server dependant tests', function () {
     })
     it('should get project keys', function (done) {
       this.timeout(5000)
-      client.getKeys('empirical-bot/my-solver').then(function (res) {
+      client.getKeys('empiricalci/hello-world').then(function (res) {
         assert(res.public_key)
         assert(res.private_key)
         done()
@@ -89,7 +90,7 @@ describe('Server dependant tests', function () {
   })
 
   describe('runTask', function () {
-    this.timeout(30000)
+    this.timeout(300000)
     var emp = require('../lib')
     emp.client.setAuth(
       '56fa1e9c444d666624705d15',
@@ -110,12 +111,12 @@ describe('Server dependant tests', function () {
         done()
       }).catch(done)
     })
-    it('should run an evaluator', function (done) {
+    it.skip('should run an evaluator', function (done) {
       emp.runTask(test_evaluator).then(function () {
         done()
       }).catch(done)
     })
-    it('should run a solver', function (done) {
+    it.skip('should run a solver', function (done) {
       emp.runTask(test_solver).then(function () {
         done()
       }).catch(done)
