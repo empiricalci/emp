@@ -97,17 +97,23 @@ describe('Server dependant tests', function () {
       '9b01c60c-56de-4ff2-8604-802c99f11d72'
     )
     it('should run a standalone experiment', function (done) {
-      emp.runTask(test_standalone).then(function () {
+      emp.runTask(test_standalone).then(function (experiment) {
+        assert.ifError(experiment.error)
+        assert.equal(experiment.status, 'success')
         done()
       }).catch(done)
     })
     it('should run a standalone experiment with data', function (done) {
-      emp.runTask(standalone_with_data).then(function () {
+      emp.runTask(standalone_with_data).then(function (experiment) {
+        assert.ifError(experiment.error)
+        assert.equal(experiment.status, 'success')
         done()
       }).catch(done)
     })
     it('should run a standalone experiment with output to workspace', function (done) {
-      emp.runTask(standalone_with_workspace).then(function () {
+      emp.runTask(standalone_with_workspace).then(function (experiment) {
+        assert.ifError(experiment.error)
+        assert.equal(experiment.status, 'success')
         done()
       }).catch(done)
     })

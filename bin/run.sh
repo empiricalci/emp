@@ -20,6 +20,7 @@ emp(){
     -v $EMPIRICAL_DIR/data:/empirical/data \
     -v $EMPIRICAL_DIR/workspaces:/empirical/workspaces \
     -e EMPIRICAL_DIR=$EMPIRICAL_DIR \
+    -e DEBUG=$DEBUG \
     empiricalci/emp $1
 } 
 
