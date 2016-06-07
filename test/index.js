@@ -11,6 +11,20 @@ const standalone_with_workspace = {full_name: 'empiricalci/hello-world/hello-wor
 const test_solver = {full_name: 'empirical-bot/my-solver/my-solver/VJsNP7PCe'}
 const test_evaluator = {full_name: 'empirical-bot/my-evaluator/my-evaluator/4JDL-aGgW'}
 
+const admin = {
+  key: '56f21e9c444d700624705d16',
+  secret: 'e6bbfb2b-f608-48a8-8a60-c78df6c2bb97'
+}
+
+const user = {
+  key: '56fa1e9c444d666624705d15',
+  secret: '9b01c60c-56de-4ff2-8604-802c99f11d72'
+}
+
+// Use user credentials
+process.env.EMPIRICAL_API_KEY = user.key
+process.env.EMPIRICAL_API_SECRET = user.user
+
 describe('Library', function () {
   var emp = require('../lib')
   it('should clone a repo into a temp directory', function (done) {
@@ -92,9 +106,10 @@ describe('Server dependant tests', function () {
   describe('runTask', function () {
     this.timeout(300000)
     var emp = require('../lib')
+    // Change credentials
     emp.client.setAuth(
-      '56fa1e9c444d666624705d15',
-      '9b01c60c-56de-4ff2-8604-802c99f11d72'
+      admin.key,
+      admin.secret
     )
     it('should run a standalone experiment', function (done) {
       emp.runTask(test_standalone).then(function (experiment) {

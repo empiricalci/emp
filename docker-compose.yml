@@ -12,8 +12,6 @@ services:
       - DOCKER_USER=$DOCKER_USER
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_DIR=/tmp/
-      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
-      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
       - EMPIRICAL_API_URI=http://$LOCALTUNNEL.tunnel.empiricalci.com
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
