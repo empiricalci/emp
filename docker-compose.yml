@@ -60,13 +60,14 @@ services:
       - ./test:/emp/test
       - ./config:/emp/config
       - ./index.js:/emp/index.js
+      - ./listen.js:/emp/listen.js
       - $EMPIRICAL_DIR/data:/empirical/data
       - $EMPIRICAL_DIR/workspaces:/empirical/workspaces
     environment:
       - DOCKER_USER=$DOCKER_USER
       - DOCKER_AUTH=$DOCKER_AUTH
-      - EMPIRICAL_API_KEY=56fa1e9c444d666624705d15
-      - EMPIRICAL_API_SECRET=9b01c60c-56de-4ff2-8604-802c99f11d72
+      - EMPIRICAL_API_KEY=56f21e9c444d700624705d16
+      - EMPIRICAL_API_SECRET=e6bbfb2b-f608-48a8-8a60-c78df6c2bb97
       - EMPIRICAL_AMQP_URL=amqp://localhost:5672
       - EMPIRICAL_API_URI=$EMPIRICAL_API_URI
       - EMPIRICAL_DIR=$EMPIRICAL_DIR
