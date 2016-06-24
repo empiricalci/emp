@@ -15,11 +15,6 @@ config.amqp = {
   queue: ENV ? 'builds:' + ENV : 'builds:development'
 }
 
-config.pusher = {
-  key: process.env.PUSHER_KEY || 'da0b1e408201a3bde70f',
-  auth_endpoint: process.env.PUSHER_AUTH_ENDPOINT || 'http://localhost:5000/api/pusher/auth_ci'
-}
-
 config.client = {
   key: process.env.EMPIRICAL_API_KEY,
   secret: process.env.EMPIRICAL_API_SECRET,

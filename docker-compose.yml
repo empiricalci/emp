@@ -64,6 +64,7 @@ services:
       - $EMPIRICAL_DIR/data:/empirical/data
       - $EMPIRICAL_DIR/workspaces:/empirical/workspaces
     environment:
+      - DEBUG=$DEBUG
       - DOCKER_USER=$DOCKER_USER
       - DOCKER_AUTH=$DOCKER_AUTH
       - EMPIRICAL_API_KEY=56f21e9c444d700624705d16

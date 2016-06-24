@@ -1,54 +1,52 @@
 
-var Pusher = require('pusher-js/node')
 var config = require('./config')
 var emp = require('./lib')
 var debug = require('debug')('emp')
+var PubNub = require('pubnub')
+var fetch = require('node-fetch')
 
-var auth = new Buffer(`${config.client.key}:${config.client.secret}`).toString('base64')
-var headers = {
-  'Authorization': 'Basic ' + auth
+var pubnub
+
+// Logger
+function logger (channel) {
+  return function (log) {
+    pubnub.publish({
+      channel: channel,
+      message: log
+    })
+  }
 }
 
-var pusher = new Pusher(config.pusher.key, {
-  authEndpoint: config.pusher.auth_endpoint,
-  auth: {
-    headers: headers
-  }
-})
-
-pusher.connection.bind('error', function (err) {
-  console.log('Connection error:', err)
-  process.exit(1)
-})
-
-const channel = `private-${config.client.key}@tasks`
-var tasks_channel = pusher.subscribe(channel)
-
-tasks_channel.bind('pusher:subscription_error', function (status) {
-  if (status === 403) {
-    console.log('There is already another worker connected with these credentials.')
-    process.exit(1)
-  }
-})
-
-// Queue
-var queue = []
-console.log('EMP is listening for tasks on channel:', channel)
-tasks_channel.bind('new-task', function (task) {
-  debug('Received task: %o', task)
-  queue.push(task)
-})
+// Auth
+const auth = new Buffer(`${config.client.key}:${config.client.secret}`).toString('base64')
+function authPubNub (channel) {
+  return fetch(`${config.client.root}/api/auth/${channel}`, {
+    headers: {
+      'Authorization': 'Basic ' + auth
+    }
+  }).then(function (response) {
+    if (!response.ok) {
+      return response.text().then(function (body) {
+        return Promise.reject(body)
+      })
+    }
+    return response.json()
+  })
+}
 
 // Consume
 function consume () {
   var task = queue.shift()
   if (task) {
     debug('Running task: %o', task)
-    return emp.runTask(task).then(function () {
-      console.log('SUCCESS')
-      consume()
+    const logs_channel = `${task.full_name}/logs`
+    return authPubNub(logs_channel).then(function () {
+      return emp.runTask(task, logger(logs_channel)).then(function () {
+        console.log('SUCCESS')
+        consume()
+      })
     }).catch(function (err) {
-      console.log('ERROR: ', err)
+      console.log('ERROR: ', err.message)
       consume()
     })
   } else {
@@ -56,4 +54,33 @@ function consume () {
   }
 }
 
-consume()
+// Queue
+var queue = []
+function listen () {
+  const tasks_channel = `${config.client.key}@tasks`
+  authPubNub(`${config.client.key}/tasks`).then(function (data) {
+    // Init pubnub
+    pubnub = PubNub.init(data)
+    // Listen
+    pubnub.subscribe({
+      heartbeat: 10,
+      channel: tasks_channel,
+      error: function (err) {
+        console.log('Error subscribing to channel:', err)
+      },
+      message: function (task) {
+        debug('Received task: %o', task)
+        queue.push(task)
+      },
+      connect: function (channel) {
+        console.log('EMP is listening on channel', channel)
+        // Start consuming
+        consume()
+      }
+    })
+  }).catch(function (err) {
+    console.log(err)
+  })
+}
+
+listen()

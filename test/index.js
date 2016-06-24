@@ -3,6 +3,7 @@
 var waitForIt = require('./wait-for-it')
 var assert = require('assert')
 var fs = require('fs')
+var debug = require('debug')('emp')
 
 // Test data
 const test_standalone = {full_name: 'empiricalci/hello-world/hello-world/4JAq0-vCl'}
@@ -105,6 +106,9 @@ describe('Server dependant tests', function () {
 
   describe('runTask', function () {
     this.timeout(300000)
+    function logHandler (log) {
+      debug(log)
+    }
     var emp = require('../lib')
     // Change credentials
     emp.client.setAuth(
@@ -112,21 +116,21 @@ describe('Server dependant tests', function () {
       admin.secret
     )
     it('should run a standalone experiment', function (done) {
-      emp.runTask(test_standalone).then(function (experiment) {
+      emp.runTask(test_standalone, logHandler).then(function (experiment) {
         assert.ifError(experiment.error)
         assert.equal(experiment.status, 'success')
         done()
       }).catch(done)
     })
     it('should run a standalone experiment with data', function (done) {
-      emp.runTask(standalone_with_data).then(function (experiment) {
+      emp.runTask(standalone_with_data, logHandler).then(function (experiment) {
         assert.ifError(experiment.error)
         assert.equal(experiment.status, 'success')
         done()
       }).catch(done)
     })
     it('should run a standalone experiment with output to workspace', function (done) {
-      emp.runTask(standalone_with_workspace).then(function (experiment) {
+      emp.runTask(standalone_with_workspace, logHandler).then(function (experiment) {
         assert.ifError(experiment.error)
         assert.equal(experiment.status, 'success')
         done()
