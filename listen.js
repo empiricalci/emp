@@ -20,7 +20,7 @@ function logger (channel) {
 // Auth
 const auth = new Buffer(`${config.client.key}:${config.client.secret}`).toString('base64')
 function authPubNub (channel) {
-  channel = channel.replace('@', '/')
+  channel = channel.replace(/@/g, '/')
   return fetch(`${config.client.root}/api/auth/${channel}`, {
     headers: {
       'Authorization': 'Basic ' + auth
@@ -40,7 +40,7 @@ function consume () {
   var task = queue.shift()
   if (task) {
     debug('Running task: %o', task)
-    const logs_channel = `${task.full_name}@logs`
+    const logs_channel = `${task.full_name.replace(/\//g, '@')}@logs`
     return authPubNub(logs_channel).then(function () {
       return emp.runTask(task, logger(logs_channel)).then(function () {
         console.log('SUCCESS')
