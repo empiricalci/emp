@@ -1,8 +1,8 @@
 
 var emp = require('./lib')
-var worker = require('./lib/worker')
 var prettyjson = require('prettyjson')
 var colors = require('colors/safe')
+var listen = require('./listen')
 
 // TODO: Print help
 // if emp [ params ] [ directory  ]
@@ -24,10 +24,9 @@ function logHandler (line) {
   process.stdout.write(line)
 }
 
-if (args.length > 2) {
+function run (experiment_name) {
   const code_dir = '/empirical/code'
   // Read experiment config
-  var experiment_name = args[2]
   logSection('EXPERIMENT:')
   var experiment = emp.readExperimentConfig(code_dir, {
     name: experiment_name
@@ -60,7 +59,16 @@ if (args.length > 2) {
     console.log(err)
     console.log(colors.red.bold('Failed'))
   })
-} else {
-  worker.consumeTasks().catch(emp.handleError)
+}
+
+switch (args[2]) {
+  case 'listen':
+    listen()
+    break
+  case 'run':
+    run(args[3])
+    break
+  default:
+    console.log('Command not found')
 }
 

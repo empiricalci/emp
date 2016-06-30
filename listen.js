@@ -84,4 +84,4 @@ function listen () {
   })
 }
 
-listen()
+module.exports = listen
