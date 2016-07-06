@@ -60,7 +60,3 @@ This will build and run ``experiment-name`` defined in ``/path/to/code/empirical
 ## Test
 The tests for the empirical client are run in conjuntion with the empirical server. 
 So you should have the Docker image for it ``empiricalci/empirical``.
-You also need to provide a localtunnel subdomain for the client to reach the server.
-```
-LOCALTUNNEL=my-custom-subdomain docker-compose run emp-test
-```

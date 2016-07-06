@@ -26,6 +26,10 @@ const user = {
 process.env.EMPIRICAL_API_KEY = user.key
 process.env.EMPIRICAL_API_SECRET = user.user
 
+function logHandler (log) {
+  debug(log)
+}
+
 describe('Library', function () {
   var emp = require('../lib')
   it('should clone a repo into a temp directory', function (done) {
@@ -69,6 +73,20 @@ describe('Library', function () {
     })
   })
   it('should cleanup code and credentials')
+  describe('buildImage', function () {
+    it('should reject if there is an error', function (done) {
+      this.timeout(60000)
+      emp.buildImage({
+        build: '.',
+        dockerfile: 'bad_dockerfile'
+      }, './test', logHandler).then(function () {
+        done(new Error('Build error not caught'))
+      }).catch(function (err) {
+        assert(err)
+        done()
+      })
+    })
+  })
 })
 
 describe('Server dependant tests', function () {
@@ -106,9 +124,6 @@ describe('Server dependant tests', function () {
 
   describe('runTask', function () {
     this.timeout(300000)
-    function logHandler (log) {
-      debug(log)
-    }
     var emp = require('../lib')
     // Change credentials
     emp.client.setAuth(

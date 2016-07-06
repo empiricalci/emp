@@ -41,7 +41,8 @@ function consume () {
   if (task) {
     debug('Running task: %o', task)
     const logs_channel = `${task.full_name.replace(/\//g, '@')}@logs`
-    return authPubNub(logs_channel).then(function () {
+    return authPubNub(logs_channel).then(function (info) {
+      debug('Authenticated: %s %o', logs_channel, info)
       return emp.runTask(task, logger(logs_channel)).then(function () {
         console.log('SUCCESS')
         consume()
