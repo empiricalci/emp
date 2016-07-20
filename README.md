@@ -1,4 +1,4 @@
-# EMP [![Circle CI](https://circleci.com/gh/empiricalci/emp.svg?style=svg)](https://circleci.com/gh/alantrrs/emp)
+# EMP [![Circle CI](https://circleci.com/gh/empiricalci/emp.svg?style=svg)](https://circleci.com/gh/empiricalci/emp)
 _Empirical Experiment Toolkit_
 
 **emp** is a command line tool that helps you run your experiments
