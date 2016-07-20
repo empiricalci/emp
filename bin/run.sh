@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION="0.1"
+VERSION="v0.1"
 IMAGE="empiricalci/emp:$VERSION"
 
 # Functions
@@ -41,9 +41,6 @@ VOLUMES="-v $DOCKER_HOST:/var/run/docker.sock"
 VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/data:/empirical/data"
 VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/workspaces:/empirical/workspaces"
 VOLUMES="$VOLUMES -v $HOME/.emp/emp.env:/emp.env"
-if [ "$EMPIRICAL_ENV" = "test" ]; then
-  VOLUMES="$VOLUMES -v $(pwd):/emp"
-fi
 
 if [ "$1" = "run" ]; then
    if [ -z "$3" ]; then
@@ -64,7 +61,11 @@ if [ "$1" = "data" ] && [ "$2" = "hash" ]; then
 fi
 
 DOCKER_RUN_OPTIONS="-ti"
+
+# Test environment
 if [ "$EMPIRICAL_ENV" = "test" ]; then
+  IMAGE="empiricalci/emp:test"
+  VOLUMES="$VOLUMES -v $(pwd):/emp"
   DOCKER_RUN_OPTIONS="-i"
 fi
 

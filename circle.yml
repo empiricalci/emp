@@ -13,7 +13,6 @@ dependencies:
     - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
     - docker pull empiricalci/test_standalone
     - docker pull empiricalci/empirical
-    - docker pull empiricalci/emp:0.1
     - docker pull mongo
     - ./docker-compose build emp-test
 test:
@@ -22,7 +21,14 @@ test:
     - ./docker-compose run emp-test run test-cov
     - npm run test-cli
 deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: empiricalci
+    commands:
+      - docker tag empiricalci/emp:test empiricalci/emp:$CIRCLE_TAG
+      - docker push empiricalci/emp:$CIRCLE_TAG
   dockerhub:
     branch: master
     commands:
-      - docker push empiricalci/emp
+      - docker tag empiricalci/emp:test empiricalci/emp:master
+      - docker push empiricalci/emp:master

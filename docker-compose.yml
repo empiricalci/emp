@@ -2,7 +2,7 @@ version: '2'
 services:
   emp-test:
     build: .
-    image: empiricalci/emp
+    image: empiricalci/emp:test
     entrypoint: npm
     command: run test-cov
     environment:

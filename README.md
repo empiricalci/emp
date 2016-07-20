@@ -18,7 +18,7 @@ everything is run through Docker. The only requirement is:
 ### Linux & Mac
 Install the launcher
 ```
-curl https://github.com/empiricalci/launcher/releases/download/v0.1/install.sh | sudo sh
+curl https://raw.githubusercontent.com/empiricalci/emp/master/install.sh | sudo sh
 ```
 
 ### Windows
