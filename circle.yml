@@ -1,0 +1,28 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+  node:
+    version: 5
+dependencies:
+  override:
+    - npm install
+    - curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > $(pwd)/docker-compose
+    - chmod +x ./docker-compose
+    - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
+    - docker pull empiricalci/test_standalone
+    - docker pull empiricalci/empirical
+    - docker pull empiricalci/emp:0.1
+    - docker pull mongo
+    - ./docker-compose build emp-test
+test:
+  override:
+    - ./docker-compose run --no-deps emp-test run lint
+    - ./docker-compose run emp-test run test-cov
+    - npm run test-cli
+deployment:
+  dockerhub:
+    branch: master
+    commands:
+      - docker push empiricalci/emp
