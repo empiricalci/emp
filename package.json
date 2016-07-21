@@ -1,6 +1,6 @@
 {
   "name": "emp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Empirical Client",
   "main": "index.js",
   "scripts": {
