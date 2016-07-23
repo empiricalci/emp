@@ -18,6 +18,12 @@ launch() {
     $IMAGE "$@"
 }
 
+absolute_path() {
+  if [ -e "$1" ]; then
+    echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  fi
+}
+
 # Get configuration
 if [ -f "$HOME/.emp/emp.env" ]; then
   source "$HOME/.emp/emp.env"
@@ -37,7 +43,11 @@ if [ -z "$EMPIRICAL_DIR" ]; then
   EMPIRICAL_DIR="$HOME/empirical"
 fi
 
-VOLUMES="-v $DOCKER_HOST:/var/run/docker.sock"
+if [ "$(uname)" == "Darwin" ]; then
+  VOLUMES="-v /var/run/docker.sock:/var/run/docker.sock"
+else
+  VOLUMES="-v $DOCKER_HOST:/var/run/docker.sock"
+fi
 VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/data:/empirical/data"
 VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/workspaces:/empirical/workspaces"
 VOLUMES="$VOLUMES -v $HOME/.emp/emp.env:/emp.env"
@@ -48,14 +58,22 @@ if [ "$1" = "run" ]; then
     echo "Usage: emp run my-experiment /path/to/project"
     exit
   else
-    CODE_DIR=$(readlink -f $3)
+    CODE_DIR=$(absolute_path $3)
+    if [ -z $CODE_DIR ]; then 
+      echo "Path doesn't exists"
+      exit 0
+    fi
     ENV_VARS="$ENV_VARS -e CODE_DIR=$CODE_DIR"
     VOLUMES="$VOLUMES -v $CODE_DIR:/empirical/code:ro"
   fi
 fi
 
 if [ "$1" = "data" ] && [ "$2" = "hash" ]; then
-  DATA_FILE=$(readlink -f $3)
+  DATA_FILE=$(absolute_path $3)
+  if [ -z $DATA_FILE ]; then 
+    echo "Path doesn't exists"
+    exit 0
+  fi
   VOLUMES="$VOLUMES -v $DATA_FILE:/x$DATA_FILE"
   ENV_VARS="$ENV_VARS -e DATA_FILE=/x$DATA_FILE"
 fi
