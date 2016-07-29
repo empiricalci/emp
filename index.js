@@ -8,6 +8,7 @@ var readline = require('readline')
 var fs = require('fs')
 var path = require('path')
 var client = require('./lib/client')
+var usage = require('./lib/usage')
 
 // TODO: Print help
 
@@ -148,6 +149,11 @@ function run (experiment_name, dir) {
   })
 }
 
+function version () {
+  const emp_version = require('./package.json').version
+  console.log(`emp version: ${emp_version}`)
+}
+
 switch (args[2]) {
   case 'listen':
     listen()
@@ -167,7 +173,10 @@ switch (args[2]) {
   case 'data':
     data(args[3])
     break
+  case 'version':
+    version()
+    break
   default:
-    console.log('Command not found')
+    usage.main()
 }
 
