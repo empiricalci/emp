@@ -53,18 +53,14 @@ VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/workspaces:/empirical/workspaces"
 VOLUMES="$VOLUMES -v $HOME/.emp/emp.env:/emp.env"
 
 if [ "$1" = "run" ]; then
-   if [ -z "$3" ]; then
-    echo "emp run requires two arguments"
-    echo "Usage: emp run my-experiment /path/to/project"
-    exit
-  else
+  if [ ! -z "$3" ]; then
     CODE_DIR=$(absolute_path $3)
     if [ -z $CODE_DIR ]; then 
       echo "Path doesn't exists"
       exit 0
     fi
     ENV_VARS="$ENV_VARS -e CODE_DIR=$CODE_DIR"
-    VOLUMES="$VOLUMES -v $CODE_DIR:/empirical/code:ro"
+    VOLUMES="$VOLUMES -v $CODE_DIR:$CODE_DIR:ro"
   fi
 fi
 
@@ -78,13 +74,17 @@ if [ "$1" = "data" ] && [ "$2" = "hash" ]; then
   ENV_VARS="$ENV_VARS -e DATA_FILE=/x$DATA_FILE"
 fi
 
-DOCKER_RUN_OPTIONS="-ti"
+DOCKER_RUN_OPTIONS="-i"
+if [ -t 1  ]; then
+  DOCKER_RUN_OPTIONS="$DOCKER_RUN_OPTIONS -t"
+fi
 
 # Test environment
 if [ "$EMPIRICAL_ENV" = "test" ]; then
+  DOCKER_RUN_OPTIONS="$DOCKER_RUN_OPTIONS --net=host"
+  EMPIRICAL_API_URI='http://localhost:5000'
   IMAGE="empiricalci/emp:test"
   VOLUMES="$VOLUMES -v $(pwd):/emp"
-  DOCKER_RUN_OPTIONS="-i"
 fi
 
 launch $@

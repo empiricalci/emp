@@ -10,7 +10,7 @@ dependencies:
     - npm install
     - curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > $(pwd)/docker-compose
     - chmod +x ./docker-compose
-    - docker login -e $DOCKER_EMAIL_ALT -u alantrrs -p $DOCKER_PASS_ALT
+    - docker login -e $DOCKER_EMAIL_ALT -u $DOCKER_USER_ALT -p $DOCKER_PASS_ALT
     - docker pull empiricalci/test_standalone
     - docker pull empiricalci/empirical
     - docker pull mongo

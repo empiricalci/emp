@@ -12,14 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alantrrs/emp.git"
+    "url": "git+https://github.com/empiricalci/emp.git"
   },
-  "author": "alantrrs",
-  "license": "ISC",
+  "author": "empiricalci",
   "bugs": {
-    "url": "https://github.com/alantrrs/emp/issues"
+    "url": "https://github.com/empiricalci/emp/issues"
   },
-  "homepage": "https://github.com/alantrrs/emp#readme",
+  "homepage": "https://github.com/empiricalci/emp#readme",
   "dependencies": {
     "amqplib": "^0.4.0",
     "atob": "^2.0.3",
