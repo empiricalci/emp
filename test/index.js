@@ -89,7 +89,7 @@ describe('Library', function () {
   })
 })
 
-describe('Server dependant tests', function () {
+describe.skip('Server dependant tests', function () {
   before(function (done) {
     this.timeout(30000)
     waitForIt(process.env.EMPIRICAL_API_URI, done)

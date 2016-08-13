@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION="v0.1.1"
+VERSION="v0.1.2"
 IMAGE="empiricalci/emp:$VERSION"
 
 # Functions
