@@ -37,6 +37,6 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: docker push empiricalci/emp
+    script: docker push empiricalci/emp:latest
     on:
       branch: master
