@@ -27,16 +27,16 @@ notifications:
   slack:
     secure: XKOuHejIYi+YVCF1Jc2T+kbHgjKdZsHEtZ4PnNshWKHlQcX9hCz9Bda8csr6qdv7SjW2WBRLTodv7Zr9aEIKSO6wmd4MBUU9Iz9JPB9HfRw+4iOnTblGB/NQUJSptRm81ffuYuFkqayQ1sBt+rwqnyepfYMOtglka70uErXuDEoZhFl0xu/wguv203/tg6Ra7WKSmt1b4utQfhyZlt3WhQtmchu9Ozf7tq73ZEnRwp+yPCjYEnfHGJX6wJ0I3jCeOF5puNdLjDZhjCns5aiRw9O7h41mP7TYrz5ndKzCkjWhj8IOQ+sZOTKmqe6TxLUwiqru0Fx6N+7Lg552mekGj3CFZ0eW4Y/TP6fFfOQ3fOg9kuPxtoUFwc2/nfG76EwvZqf3Oc/8UwBA2i84+Cj3ocMKNQC0qxDu6ilq/nbwavhzs1+yG2Y5mzMonwCXntAnJMZtGNeQPfTMdN7V7BBSdZXLvCq3km8kpzM2W0xiiTlgqeLmI18A5n6mN9/zvIzg+8W/Axu7eWDtJMCrEr9XZkoR4mSYpjZHrPCvNJcBA8DKlDz8DJ/dE4tdiANNdTV+G4shHRkDppRxmSJSEh+gdOi0NQrQ2uHcIGnHeq/DfzdpVutjSXRJEAO7FX7jrMgX77F7XNWtz2RtypFsoL/wZY6oBxb2bx3zwVtmjoKkQOQ=
 
+before_deploy:
+  - export TAG=`if [ -z $TRAVIS_TAG ]; then echo "latest"; else echo $TRAVIS_TAG; fi`
+  - echo $TAG
+  - docker tag empiricalci/emp:test empiricalci/emp:$TAG
 deploy:
   - provider: script
-    script:
-    - docker tag empiricalci/emp:test empiricalci/emp:$TRAVIS_TAG
-    - docker push empiricalci/emp:$TRAVIS_TAG
+    script: docker push empiricalci/emp:$TRAVIS_TAG
     on:
       tags: true
   - provider: script
-    script:
-    - docker tag empiricalci/emp:test empiricalci/emp:master
-    - docker push empiricalci/emp:master
+    script: docker push empiricalci/emp
     on:
       branch: master
