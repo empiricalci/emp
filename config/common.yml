@@ -1,3 +1,0 @@
-experiment:
-  volumes:
-    - $DATA:/data

@@ -3,11 +3,9 @@
 #FROM mhart/alpine-node:5.5.0 
 
 # Use node
-FROM node:5.11
-
-# Install docker client (for debugging purposes)
-RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 && mv docker-1.9.1 /usr/bin/docker && chmod 777 /usr/bin/docker
-
+FROM node:6-slim
+RUN apt-get update
+RUN apt-get install -y git
 # Install Empirical
 COPY package.json /emp/package.json
 WORKDIR /emp

@@ -10,21 +10,19 @@ launch() {
   docker run $DOCKER_RUN_OPTIONS --rm \
     $VOLUMES \
     $ENV_VARS \
-    -e EMPIRICAL_API_URI=$EMPIRICAL_API_URI \
-    -e EMPIRICAL_API_KEY=$EMPIRICAL_API_KEY \
-    -e EMPIRICAL_API_SECRET=$EMPIRICAL_API_SECRET \
-    -e EMPIRICAL_DIR=$EMPIRICAL_DIR \
+    -e HOME=$HOME \
     -e DEBUG=$DEBUG \
     $IMAGE "$@"
 }
 
 absolute_path() {
-  if [ -e "$1" ]; then
+  if [ -e "$(dirname $1)" ]; then
     echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
   fi
 }
 
 # Get configuration
+EMP_CONF_FILE="$HOME/.emp/emp.env"
 if [ -f "$HOME/.emp/emp.env" ]; then
   source "$HOME/.emp/emp.env"
 else
@@ -35,32 +33,49 @@ else
   echo "EMPIRICAL_DIR=$HOME/empirical" > $HOME/.emp/emp.env
 fi
 
-if [ -z "$DOCKER_HOST"  ]; then
-  DOCKER_HOST="/var/run/docker.sock"
-fi
-
 if [ -z "$EMPIRICAL_DIR" ]; then
   EMPIRICAL_DIR="$HOME/empirical"
 fi
 
-if [ "$(uname)" == "Darwin" ]; then
-  VOLUMES="-v /var/run/docker.sock:/var/run/docker.sock"
-else
-  VOLUMES="-v $DOCKER_HOST:/var/run/docker.sock"
+VOLUMES="-v /var/run/docker.sock:/var/run/docker.sock"
+VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/data:$EMPIRICAL_DIR/data"
+VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/workspaces:$EMPIRICAL_DIR/workspaces"
+VOLUMES="$VOLUMES -v $EMP_CONF_FILE:$EMP_CONF_FILE"
+
+if [ "$1" = "replicate" ]; then
+  if [ -z $3 ]; then
+    CODE_DIR="$(pwd)/$(basename $(dirname $2))"
+    # Append absolute path to the end
+    set -- "${@}" "$CODE_DIR"
+  else
+    CODE_DIR=$(absolute_path $3)
+    # Replaces last arg by the new absolute path
+    set -- "${@:1:$(($#-1))}" "$CODE_DIR"
+  fi
+  if [ -z $CODE_DIR ]; then 
+    echo "Path $(dirname $3) doesn't exists"
+    exit 1
+  fi
+    VOLUMES="$VOLUMES -v $CODE_DIR:$CODE_DIR"
 fi
-VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/data:/empirical/data"
-VOLUMES="$VOLUMES -v $EMPIRICAL_DIR/workspaces:/empirical/workspaces"
-VOLUMES="$VOLUMES -v $HOME/.emp/emp.env:/emp.env"
 
 if [ "$1" = "run" ]; then
-  if [ ! -z "$3" ]; then
-    CODE_DIR=$(absolute_path $3)
+  # Check if version is passed to run
+  for key in "$@"; do
+    case $key in
+      -v|--version)
+        SHA=true
+    esac
+  done
+  if [ -z "$SHA" ]; then
+    CODE_DIR=$(absolute_path "${@: -1}")
     if [ -z $CODE_DIR ]; then 
       echo "Path doesn't exists"
-      exit 0
+      exit 1
     fi
-    ENV_VARS="$ENV_VARS -e CODE_DIR=$CODE_DIR"
     VOLUMES="$VOLUMES -v $CODE_DIR:$CODE_DIR:ro"
+    # Replaces last arg by the new absolute path
+    set -- "${@:1:$(($#-1))}" "$CODE_DIR"
   fi
 fi
 
@@ -68,10 +83,9 @@ if [ "$1" = "data" ] && [ "$2" = "hash" ]; then
   DATA_FILE=$(absolute_path $3)
   if [ -z $DATA_FILE ]; then 
     echo "Path doesn't exists"
-    exit 0
+    exit 1
   fi
-  VOLUMES="$VOLUMES -v $DATA_FILE:/x$DATA_FILE"
-  ENV_VARS="$ENV_VARS -e DATA_FILE=/x$DATA_FILE"
+  VOLUMES="$VOLUMES -v $DATA_FILE:$DATA_FILE"
 fi
 
 DOCKER_RUN_OPTIONS="-i"
@@ -82,9 +96,8 @@ fi
 # Test environment
 if [ "$EMPIRICAL_ENV" = "test" ]; then
   DOCKER_RUN_OPTIONS="$DOCKER_RUN_OPTIONS --net=host"
-  EMPIRICAL_API_URI='http://localhost:5000'
+  ENV_VARS="-e EMPIRICAL_HOST=http://localhost:1337"
   IMAGE="empiricalci/emp:test"
-  VOLUMES="$VOLUMES -v $(pwd):/emp"
 fi
 
 launch $@

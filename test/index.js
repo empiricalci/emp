@@ -1,166 +1,283 @@
 /* eslint-env mocha */
 
-var waitForIt = require('./wait-for-it')
 var assert = require('assert')
 var fs = require('fs')
-var debug = require('debug')('emp')
+var path = require('path')
+var debugLogger = require('./debug-logger')
+var setup = require('./setup')
+var rm = require('rimraf')
 
-// Test data
-const test_standalone = {full_name: 'empiricalci/hello-world/hello-world/4JAq0-vCl'}
-const standalone_with_data = {full_name: 'empiricalci/hello-world/hello-world/r1Q7q9YM'}
-const standalone_with_workspace = {full_name: 'empiricalci/hello-world/hello-world/SywuYx17'}
-const test_solver = {full_name: 'empirical-bot/my-solver/my-solver/VJsNP7PCe'}
-const test_evaluator = {full_name: 'empirical-bot/my-evaluator/my-evaluator/4JDL-aGgW'}
+const ENV_FILE = path.join(process.env.HOME, '/.emp/emp.env')
+const code_dir = '/tmp/mnist-test-project'
+const tmpPath = '/tmp/some_dir'
+const tmpPath2 = path.join(process.cwd(), 'mnist')
 
-const admin = {
-  key: '56f21e9c444d700624705d16',
-  secret: 'e6bbfb2b-f608-48a8-8a60-c78df6c2bb97'
-}
+before(function (done) {
+  process.env.EMPIRICAL_HOST = 'http://localhost:1337'
+  rm(tmpPath, function () {
+    rm(tmpPath2, function () {
+      rm(code_dir, function () {
+        setup.backupConfig(ENV_FILE, done)
+      })
+    })
+  })
+})
 
-const user = {
-  key: '56fa1e9c444d666624705d15',
-  secret: '9b01c60c-56de-4ff2-8604-802c99f11d72'
-}
-
-// Use user credentials
-process.env.EMPIRICAL_API_KEY = user.key
-process.env.EMPIRICAL_API_SECRET = user.user
-
-function logHandler (log) {
-  debug(log)
-}
-
-describe('Library', function () {
-  var emp = require('../lib')
-  it('should clone a repo into a temp directory', function (done) {
-    this.timeout(300000)
-    var repo = 'git@github.com:empiricalci/hello-world.git'
-    var keys = {
-      public_key: fs.readFileSync('./node_modules/fixtures/test_keys/test_key.pub', 'utf8'),
-      private_key: fs.readFileSync('./node_modules/fixtures/test_keys/test_key', 'utf8')
-    }
-    var sha = 'a574f888bdb8f286fd827263794b8aace413dcec'
-    emp.getCodeDir(repo, sha, keys).then(function (codeDir) {
-      assert(fs.lstatSync(codeDir).isDirectory())
+const newDir = '/tmp/empirical'
+describe('config', function () {
+  var config = require('../lib/config')
+  it('.load() should create a default config file if there is none', function (done) {
+    config.load().then(function () {
+      assert(fs.lstatSync(ENV_FILE).isFile())
+      assert.equal(process.env.EMPIRICAL_DIR, `${process.env.HOME}/empirical`)
+      assert.equal(process.env.DATA_PATH, `${process.env.HOME}/empirical/data`)
+      assert.equal(process.env.WORKSPACES_PATH, `${process.env.HOME}/empirical/workspaces`)
       done()
     }).catch(done)
   })
-  describe('readExperimentConfig', function () {
-    it('should succed with valid standalone config', function () {
-      var experiment = emp.readExperimentConfig('./node_modules/fixtures/standalone_project', {
-        _id: '342434234',
-        name: 'hello-world',
-        type: 'standalone'
-      })
-      assert.equal(experiment.type, 'standalone')
-      assert(experiment.environment.tag)
-    })
-    it('should fail if a solver experiment config does not contain evaluator')
-  })
-  it('should get a datset')
-  describe('runExperiment', function () {
-    it('should run a sandalone experiment', function (done) {
-      this.timeout(300000)
-      emp.runExperiment({
-        _id: 'some_id',
-        type: 'standalone',
-        environment: {
-          tag: 'empiricalci/test_standalone'
-        }
-      }).then(function () {
-        done()
-      }).catch(done)
+  it('.update() should save updated variables', function (done) {
+    config.update({dir: newDir})
+    fs.readFile(ENV_FILE, 'utf8', function (err, content) {
+      assert.ifError(err)
+      assert(content.indexOf(`EMPIRICAL_DIR=\"${newDir}\"`) > -1, 'Variable not saved')
+      done()
     })
   })
-  it('should cleanup code and credentials')
-  describe('buildImage', function () {
-    it('should reject if there is an error', function (done) {
-      this.timeout(60000)
-      emp.buildImage({
-        build: '.',
-        dockerfile: 'bad_dockerfile'
-      }, './test', logHandler).then(function () {
-        done(new Error('Build error not caught'))
-      }).catch(function (err) {
-        assert(err)
-        done()
-      })
+  it('.updateDir() should fail with relative dirs', function (done) {
+    config.updateDir('node_modules/').then(function () {
+      done(new Error('Should\'t upadte relative paths'))
+    }).catch(function (err) {
+      assert.equal(err.message, 'Relative paths not allowed')
+      done()
     })
+  })
+  it('.load() should load the env variables if the file exists', function (done) {
+    config.load().then(function () {
+      assert.equal(process.env.EMPIRICAL_DIR, newDir)
+      assert.equal(process.env.DATA_PATH, `${newDir}/data`)
+      assert.equal(process.env.WORKSPACES_PATH, `${newDir}/workspaces`)
+      done()
+    }).catch(done)
   })
 })
 
-describe.skip('Server dependant tests', function () {
+describe('initDirs()', function () {
+  it('should create data and workspace directories', function (done) {
+    var initDirs = require('../lib/init-dirs')
+    initDirs().then(function () {
+      assert(fs.lstatSync(`${newDir}/data`).isDirectory())
+      assert(fs.lstatSync(`${newDir}/workspaces`).isDirectory())
+      done()
+    }).catch(done)
+  })
+})
+
+describe('auth', function () {
+  var auth = require('../lib/auth')
   before(function (done) {
-    this.timeout(30000)
-    waitForIt(process.env.EMPIRICAL_API_URI, done)
+    this.timeout(20000)
+    require('./wait-for-it')('http://localhost:1337', done)
   })
-  describe('Client', function () {
-    var client = require('../lib/client')
-    it('should update experiment', function (done) {
-      this.timeout(5000)
-      client.updateExperiment(test_standalone.full_name, {
-        status: 'test'
-      }).then(function (res) {
-        assert.equal(res.status, 'test')
-        done()
-      }).catch(done)
-    })
-    it.skip('should get a build', function (done) {
-      this.timeout(5000)
-      client.getBuild(test_solver.full_name).then(function (build) {
-        assert.equal(test_solver.full_name, build.full_name)
-        done()
-      }).catch(done)
-    })
-    it('should get project keys', function (done) {
-      this.timeout(5000)
-      client.getKeys('empiricalci/hello-world').then(function (res) {
-        assert(res.public_key)
-        assert(res.private_key)
-        done()
-      }).catch(done)
+  it('.login() should not save credentials when invalid', function (done) {
+    auth.login({user: 'empirical-bot', password: 'wrongPassword'})
+    .then(function () {
+      done(new Error('Login error not caught'))
+    }).catch(function (err) {
+      assert.equal(err.message, 'Login failed. Wrong credentials.')
+      done()
     })
   })
 
-  describe('runTask', function () {
-    this.timeout(300000)
-    var emp = require('../lib')
-    // Change credentials
-    emp.client.setAuth(
-      admin.key,
-      admin.secret
-    )
-    it('should run a standalone experiment', function (done) {
-      emp.runTask(test_standalone, logHandler).then(function (experiment) {
-        assert.ifError(experiment.error)
-        assert.equal(experiment.status, 'success')
+  it('.login() should save credentials when valid', function (done) {
+    auth.login({user: 'empirical-bot', password: 'password'})
+    .then(function () {
+      var creds = new Buffer(process.env.EMPIRICAL_AUTH, 'base64').toString().split(':')
+      assert.equal(creds[0], 'empirical-bot')
+      assert.equal(creds[1], 'password')
+      fs.readFile(ENV_FILE, 'utf8', function (err, content) {
+        assert.ifError(err)
+        assert(content.indexOf(`EMPIRICAL_AUTH=\"${process.env.EMPIRICAL_AUTH}\"`) > -1, 'Variable not saved')
         done()
-      }).catch(done)
-    })
-    it('should run a standalone experiment with data', function (done) {
-      emp.runTask(standalone_with_data, logHandler).then(function (experiment) {
-        assert.ifError(experiment.error)
-        assert.equal(experiment.status, 'success')
-        done()
-      }).catch(done)
-    })
-    it('should run a standalone experiment with output to workspace', function (done) {
-      emp.runTask(standalone_with_workspace, logHandler).then(function (experiment) {
-        assert.ifError(experiment.error)
-        assert.equal(experiment.status, 'success')
-        done()
-      }).catch(done)
-    })
-    it.skip('should run an evaluator', function (done) {
-      emp.runTask(test_evaluator).then(function () {
-        done()
-      }).catch(done)
-    })
-    it.skip('should run a solver', function (done) {
-      emp.runTask(test_solver).then(function () {
-        done()
-      }).catch(done)
+      })
+    }).catch(done)
+  })
+
+  it('.logout() should clear credentials', function (done) {
+    auth.logout()
+    fs.readFile(ENV_FILE, 'utf8', function (err, content) {
+      assert.ifError(err)
+      assert.equal(process.env.EMPIRICAL_AUTH, 'None')
+      assert(content.indexOf(`EMPIRICAL_AUTH=\"None\"`) > -1, 'Variable not saved')
+      done()
     })
   })
 })
 
+const sha = '25074d4703c3e168044ec58ea743be0ca162eff3'
+describe('gitClone', function () {
+  var gitClone = require('../lib/git-clone')
+  it('should clone a public repo without a token', function (done) {
+    this.timeout(300000)
+    var repo = 'https://github.com/empiricalci/mnist-sample.git'
+    gitClone(repo, code_dir).then(function (repo) {
+      assert(fs.lstatSync(code_dir).isDirectory())
+      done()
+    }).catch(done)
+  })
+})
+
+describe('gitHeadCommit', function () {
+  var gitHeadCommit = require('../lib/git-head')
+  it('should return the head sha', function (done) {
+    gitHeadCommit(code_dir).then(function (head_sha) {
+      assert.equal(head_sha, sha)
+      done()
+    }).catch(done)
+  })
+})
+
+describe('readProtocol', function () {
+  const readProtocol = require('../lib/read-protocol')
+  it('should return a valid protocol', function () {
+    var protocol = readProtocol('./node_modules/fixtures/standalone_project', 'hello-world')
+    assert.equal(protocol.type, 'standalone')
+    assert(protocol.environment.tag)
+  })
+  it('should return null if the protocol doesn\'t exits in the empirical.yml', function () {
+    var protocol = readProtocol('./node_modules/fixtures/standalone_project', 'some-protocol')
+    assert(!protocol)
+  })
+})
+
+describe('data', function () {
+  it('.install() should install from json file path')
+  it('.install() should install from object')
+})
+
+describe('buildImage', function () {
+  it('should reject if there is an error', function (done) {
+    this.timeout(60000)
+    const buildImage = require('../lib/build-image')
+    buildImage({
+      build: '.',
+      dockerfile: 'bad_dockerfile'
+    }, './test', debugLogger.write).then(function () {
+      done(new Error('Build error not caught'))
+    }).catch(function (err) {
+      assert(err)
+      done()
+    }).catch(done)
+  })
+})
+
+describe('runExperiment', function () {
+  it('should run a sandalone experiment', function (done) {
+    this.timeout(300000)
+    const runExperiment = require('../lib/run-experiment')
+    runExperiment({
+      id: 'some_id',
+      type: 'standalone',
+      environment: {
+        tag: 'empiricalci/test_standalone'
+      }
+    }).then(function () {
+      done()
+    }).catch(done)
+  })
+  it('should fail if the experiment fails')
+})
+
+describe('run()', function () {
+  const run = require('../lib/run')
+  it('should run an experiment', function (done) {
+    this.timeout(60000)
+    run({
+      protocol: 'hello-world',
+      code_path: 'node_modules/fixtures/standalone_project'
+    }, debugLogger)
+    .then(function () {
+      // TODO: Assert stuff
+      done()
+    })
+    .catch(done)
+  })
+  it('should fail if no code path is given', function (done) {
+    run({
+      protocol: 'hello-world'
+    }, debugLogger)
+    .then(function () {
+      done(new Error('Didn\'t throw error without a code path'))
+    })
+    .catch(function (err) {
+      assert.equal(err.message, 'Error: emp run requires a code path')
+      done()
+    })
+  })
+  it('should fail if the experiment-name is not found', function (done) {
+    run({
+      protocol: 'something',
+      code_path: 'node_modules/fixtures/standalone_project'
+    }, debugLogger)
+    .then(function () {
+      done(new Error('Protocol not found error wasn\'t caught'))
+    })
+    .catch(function (err) {
+      assert.equal(err.message, `Protocol "something" not found`)
+      done()
+    }).catch(done)
+  })
+  it('should save an experiment', function (done) {
+    this.timeout(60000)
+    run({
+      protocol: 'mnist',
+      code_path: code_dir,
+      project: 'empiricalci/mnist-sample'
+    }, debugLogger)
+    .then(function () {
+      // TODO: Assert
+      done()
+    })
+    .catch(done)
+  })
+  it('should save an experimnet for a specific version', function (done) {
+    this.timeout(60000)
+    run({
+      protocol: 'mnist',
+      head_sha: '27e12070ca9618e1a66884995b6c872e2a15d886',
+      project: 'empiricalci/mnist-sample'
+    }, debugLogger)
+    .then(function () {
+      // TODO: Assert
+      done()
+    })
+    .catch(done)
+  })
+})
+
+describe('replicate()', function () {
+  const replicate = require('../lib/replicate')
+  it('should download and run an experiment and save the code on the given path', function (done) {
+    this.timeout(60000)
+    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', tmpPath, debugLogger).then(function () {
+      assert(fs.lstatSync(tmpPath).isDirectory())
+      // TODO: Assertions
+      done()
+    }).catch(done)
+  })
+  it('should save code on current directory if no code path is given', function (done) {
+    this.timeout(60000)
+    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', undefined, debugLogger).then(function () {
+      assert(fs.lstatSync(tmpPath2).isDirectory())
+      // TODO: Assertions
+      done()
+    }).catch(done)
+  })
+})
+
+after(function (done) {
+  rm(tmpPath, function () {
+    rm(tmpPath2, function () {
+      setup.resetConfig(ENV_FILE, done)
+    })
+  })
+})
