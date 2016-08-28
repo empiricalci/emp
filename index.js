@@ -65,6 +65,7 @@ function execute (args) {
       return replicate(args._[3], args._[4], logger)
       .catch(function (err) {
         logger.log(err.message)
+        return Promise.reject()
       })
     case 'run':
       return run({

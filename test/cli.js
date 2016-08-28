@@ -137,7 +137,7 @@ describe('emp run --save <owner/project>', function (done) {
   })
   it('runs and saves an experiment for a specific version of the code', function (done) {
     this.timeout(60000)
-    exec('node index.js run -v 27e12070ca9618e1a66884995b6c872e2a15d886 -s empiricalci/mnist-sample mnist', function (err, stdout, stderr) {
+    exec('node index.js run -v d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a -s empiricalci/mnist-sample mnist', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()
@@ -181,5 +181,8 @@ describe('emp logout', function () {
 })
 
 after(function (done) {
-  setup.resetConfig(ENV_FILE, done)
+  const rm = require('rimraf')
+  rm(path.join(process.cwd(), 'mnist'), function () {
+    setup.resetConfig(ENV_FILE, done)
+  })
 })

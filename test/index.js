@@ -113,13 +113,13 @@ describe('auth', function () {
   })
 })
 
-const sha = '25074d4703c3e168044ec58ea743be0ca162eff3'
+const sha = 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
 describe('gitClone', function () {
   var gitClone = require('../lib/git-clone')
   it('should clone a public repo without a token', function (done) {
     this.timeout(300000)
     var repo = 'https://github.com/empiricalci/mnist-sample.git'
-    gitClone(repo, code_dir).then(function (repo) {
+    gitClone(repo, code_dir, null, sha).then(function (repo) {
       assert(fs.lstatSync(code_dir).isDirectory())
       done()
     }).catch(done)
@@ -239,11 +239,11 @@ describe('run()', function () {
     })
     .catch(done)
   })
-  it('should save an experimnet for a specific version', function (done) {
+  it('should save an experiment for a specific version', function (done) {
     this.timeout(60000)
     run({
       protocol: 'mnist',
-      head_sha: '27e12070ca9618e1a66884995b6c872e2a15d886',
+      head_sha: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a',
       project: 'empiricalci/mnist-sample'
     }, debugLogger)
     .then(function () {

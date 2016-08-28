@@ -143,7 +143,7 @@ describe('./bin/run.sh', function () {
   })
   describe('emp run --version <SHA> --save <owner/project> <protocol>', function () {
     var container
-    const sha = '27e12070ca9618e1a66884995b6c872e2a15d886'
+    const sha = 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
     it('runs and exits successfully', function (done) {
       this.timeout(60000)
       const emp = spawn('./bin/run.sh', ['run', '-v', sha, '-s', 'empiricalci/mnist-sample', 'mnist'])
