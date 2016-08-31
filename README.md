@@ -9,7 +9,7 @@
 <p align='center'>
   <i>A Package Manager for Empirical Science</i><br/><br/>
   <a href='https://travis-ci.org/empiricalci/emp'>
-    <img src='https://travis-ci.org/empiricalci/emp.svg' alt='build status'/>
+    <img src='https://travis-ci.org/empiricalci/emp.svg?branch=master' alt='build status'/>
   </a>
   <a href='https://gitter.im/empiricalci/emp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge'>
     <img src='https://badges.gitter.im/empiricalci/emp.svg' alt='gitter'/>
