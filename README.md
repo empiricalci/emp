@@ -74,15 +74,13 @@ emp run <protocol> </path/to/code>
 This is useful for quickly testing on your computer before saving changes to your code.
 
 ## Keep track of your experiments
-In order to keep track of your experiments on the Empirical platform ([empiricalci.com](https://empiricalci.com)),
+In order to keep track of your experiments on [empiricalci.com](https://empiricalci.com),
 we integrate with GitHub for tracking any updates made to your research code.
 Associate your repository by creating a [new project](https://empiricalci.com/projects/new).
 Once you linked your project, every time that you push to that repo we'll create a new
 version of your code on [empiricalci.com](https://empiricalci.com). 
-Then, you have two ways to execute your experiments:
 
-### Manual mode
-You can run a specific version of the research code by doing the following:
+Then, you can run a specific version of the research code by doing the following:
 ```
 emp run --version <SHA> --save <owner/project> <protocol>
 ```
@@ -100,22 +98,3 @@ without having to look for the commit ``<SHA>``, like this:
 
 1. Push your changes to GitHub: ``git push``  
 2. Run your experiments: ``emp run --save <owner/project> <protocol> </path/to/code>``
-
-### Continuous integration mode
-**NOTE: This mode hasn't been implemented yet** 
-
-In this mode you will be continuosly listening for updates in the GitHub repository.
-Every time that a push is made to the repo, the experiments will automatically run on your 
-computer and save the output to [empiricalci.com](https://empiricalci.com).
-You can run experiments for all protcols in the project:
-```
-emp listen <owner/project>
-```
-or run experiments for a specific protocol like this:
-```
-emp listen <owner/project/protocol>
-```
-Running this command will start a server on your computer that will receive updates 
-every time a new push is made to the repository on GitHub.
-
-
