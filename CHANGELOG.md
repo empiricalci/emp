@@ -1,4 +1,7 @@
 # Changelog
+## v0.2.1 (31 Aug 2016)
+- Fixes binary for npm package by adding hashbang
+
 ## v0.2.0 (31 Aug 2016)
 - Complete refactor of the code
 - Breaking changes on ``empirical.yml``: Changed top node key from ``experiments`` to ``protocols``

@@ -32,6 +32,11 @@ before_deploy:
   - echo $TAG
   - docker tag empiricalci/emp:test empiricalci/emp:$TAG
 deploy:
+  - provider: npm
+    email: $NPM_EMAIL
+    api_key: $NPM_API_KEY
+    on:
+      tags: true
   - provider: script
     script: docker push empiricalci/emp:$TRAVIS_TAG
     on:

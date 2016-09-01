@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 var data = require('./lib/data')
 var usage = require('./lib/usage')

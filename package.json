@@ -1,8 +1,7 @@
 {
   "name": "empirical-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Empirical Package Manager",
-  "main": "index.js",
   "bin": {
     "emp": "./index.js"
   },
