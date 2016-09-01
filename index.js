@@ -68,6 +68,10 @@ function execute (args) {
         return Promise.reject()
       })
     case 'run':
+      if (args.help || args.h) {
+        usage.run()
+        return Promise.resolve()
+      }
       return run({
         protocol: args._[3],
         code_path: args._[4],
