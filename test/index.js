@@ -141,6 +141,7 @@ describe('readProtocol', function () {
   it('should return a valid protocol', function () {
     var protocol = readProtocol('./node_modules/fixtures/standalone_project', 'hello-world')
     assert.equal(protocol.type, 'standalone')
+    assert(protocol.dataset.resources['answers.csv'])
     assert(protocol.environment.tag)
   })
   it('should return null if the protocol doesn\'t exits in the empirical.yml', function () {

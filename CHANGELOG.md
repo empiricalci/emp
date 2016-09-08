@@ -1,4 +1,8 @@
 # Changelog
+
+## v0.2.2 (7 Sep 2016)
+- Saves environment and dataset
+
 ## v0.2.1 (31 Aug 2016)
 - Fixes binary for npm package by adding hashbang
 
