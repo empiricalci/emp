@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.2.3 (8 Sep 2016)
+- Only requires auth token to clone private repositories.
+
 ## v0.2.2 (7 Sep 2016)
 - Saves environment and dataset
 
