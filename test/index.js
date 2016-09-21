@@ -3,9 +3,11 @@
 var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
-var debugLogger = require('./debug-logger')
+var logger = require('../lib/logger')
 var setup = require('./setup')
 var rm = require('rimraf')
+
+logger.writeToConsole(false)
 
 const ENV_FILE = path.join(process.env.HOME, '/.emp/emp.env')
 const code_dir = '/tmp/mnist-test-project'
@@ -162,7 +164,7 @@ describe('buildImage', function () {
     buildImage({
       build: '.',
       dockerfile: 'bad_dockerfile'
-    }, './test', debugLogger.write).then(function () {
+    }, './test', logger.write).then(function () {
       done(new Error('Build error not caught'))
     }).catch(function (err) {
       assert(err)
@@ -195,7 +197,7 @@ describe('run()', function () {
     run({
       protocol: 'hello-world',
       code_path: 'node_modules/fixtures/standalone_project'
-    }, debugLogger)
+    }, logger)
     .then(function () {
       // TODO: Assert stuff
       done()
@@ -205,7 +207,7 @@ describe('run()', function () {
   it('should fail if no code path is given', function (done) {
     run({
       protocol: 'hello-world'
-    }, debugLogger)
+    }, logger)
     .then(function () {
       done(new Error('Didn\'t throw error without a code path'))
     })
@@ -218,7 +220,7 @@ describe('run()', function () {
     run({
       protocol: 'something',
       code_path: 'node_modules/fixtures/standalone_project'
-    }, debugLogger)
+    }, logger)
     .then(function () {
       done(new Error('Protocol not found error wasn\'t caught'))
     })
@@ -233,7 +235,7 @@ describe('run()', function () {
       protocol: 'mnist',
       code_path: code_dir,
       project: 'empiricalci/mnist-sample'
-    }, debugLogger)
+    }, logger)
     .then(function () {
       // TODO: Assert
       done()
@@ -246,7 +248,7 @@ describe('run()', function () {
       protocol: 'mnist',
       head_sha: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a',
       project: 'empiricalci/mnist-sample'
-    }, debugLogger)
+    }, logger)
     .then(function () {
       // TODO: Assert
       done()
@@ -259,7 +261,7 @@ describe('replicate()', function () {
   const replicate = require('../lib/replicate')
   it('should download and run an experiment and save the code on the given path', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', tmpPath, debugLogger).then(function () {
+    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', tmpPath, logger).then(function () {
       assert(fs.lstatSync(tmpPath).isDirectory())
       // TODO: Assertions
       done()
@@ -267,7 +269,7 @@ describe('replicate()', function () {
   })
   it('should save code on current directory if no code path is given', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', undefined, debugLogger).then(function () {
+    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', undefined, logger).then(function () {
       assert(fs.lstatSync(tmpPath2).isDirectory())
       // TODO: Assertions
       done()

@@ -15,7 +15,7 @@ install:
 - npm install
 - docker pull empiricalci/test_standalone
 - docker run -d -P --name rethink1 rethinkdb
-- docker run -d -p 1337 --net host --entrypoint=npm empiricalci/empirical run test-server
+- docker run -d -p 1337 --net host -e AWS_SECRET_KEY=$AWS_SECRET_KEY -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY --entrypoint=npm empiricalci/empirical run test-server
 - docker build -t empiricalci/emp:test .
 script:
 - npm run lint
