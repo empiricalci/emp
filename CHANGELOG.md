@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.0 (21 Sep 2016)
+- Saves log files to experiment directory
+- Uploads the logs to the server when using ``--save owner/project``
+
 ## v0.2.3 (8 Sep 2016)
 - Only requires auth token to clone private repositories.
 
