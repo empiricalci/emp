@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.1 (27 Sep 2016)
+- Allows to pass entrypoint from protocol envrionment
+
 ## v0.3.0 (21 Sep 2016)
 - Saves log files to experiment directory
 - Uploads the logs to the server when using ``--save owner/project``
