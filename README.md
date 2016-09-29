@@ -40,24 +40,14 @@ you can use **emp** as a Docker container, just by installing the launcher:
 curl -s https://raw.githubusercontent.com/empiricalci/emp/master/install.sh | sudo sh
 ```
 
-## Configure
-
-### Empirical directory
-Empirical uses a directory to cache all the datasets downloaded and to save any files generated during the
-tests or experiments. This defaults to ``~/empirical``. You can change this by doing:
+## Get started
+Test your installation by replicating an experiment.
 ```
-emp configure
+emp replicate empiricalci/mnist-sample/mnist/SJCSKAeT
 ```
-
-## Authenticate with the server
-Authenticating with [empiricalci.com](https://empiricalci.com) allows you to save the results of your experiments
-and share them with your peers.  
-1. If you haven't done so, sign up with GitHub for an account on [empiricalci.com](http://empiricalci.com)  
-2. Set up a password on your [account page](https://empiricalci.com/account)  
-3. Login using the CLI: ``emp login`` will ask for your credentials and store them on your computer  
 
 ## Replicate an experiment
-Once authenticated, you can easily replicate an experiment by running:
+You can easily replicate an experiment by running:
 ```
 emp replicate <experimentId>
 ```
@@ -72,6 +62,13 @@ You can use the tool to execute your experiment on your own computer.
 emp run <protocol> </path/to/code>
 ```
 This is useful for quickly testing on your computer before saving changes to your code.
+
+## Authenticate with the server
+Authenticating with [empiricalci.com](https://empiricalci.com) allows you to save the results of your experiments
+and share them with your peers.  
+1. If you haven't done so, sign up with GitHub for an account on [empiricalci.com](http://empiricalci.com)  
+2. Set up a password on your [account page](https://empiricalci.com/account)  
+3. Login using the CLI: ``emp login`` will ask for your credentials and store them on your computer  
 
 ## Keep track of your experiments
 In order to keep track of your experiments on [empiricalci.com](https://empiricalci.com),
@@ -98,3 +95,12 @@ without having to look for the commit ``<SHA>``, like this:
 
 1. Push your changes to GitHub: ``git push``  
 2. Run your experiments: ``emp run --save <owner/project> <protocol> </path/to/code>``
+
+## Configure
+
+### Empirical directory
+Empirical uses a directory to cache all the datasets downloaded and to save any files generated during the
+tests or experiments. This defaults to ``~/empirical``. You can change this by doing:
+```
+emp configure
+```
