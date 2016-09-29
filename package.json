@@ -26,7 +26,7 @@
     "colors": "^1.1.2",
     "dataset-cache": "^1.2.0",
     "debug": "^2.2.0",
-    "dockerise": "^2.1.3",
+    "dockerise": "^2.1.4",
     "dockerode": "^2.3.0",
     "empirical-client": "^0.3.0",
     "minimist": "^1.2.0",
