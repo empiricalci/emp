@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.2 (28 Sep 2016)
+- Don't hardcode docker socket
+- Fix json stream parsing from build image
+
 ## v0.3.1 (27 Sep 2016)
 - Allows to pass entrypoint from protocol envrionment
 
