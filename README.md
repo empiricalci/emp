@@ -20,24 +20,25 @@
 using the [Empirical Framework](https://empiricalci.com/docs/framework)
 
 ## Dependencies
-One of the enabling technologies that's used in this framework is **Docker**. 
-Docker allows us to create self-contained portable environments that work accross different platforms. 
+There are only 2 requirements:
+
+- Download and install Node.js [from here](https://nodejs.org/en/).
 - Follow [these instructions](https://docs.docker.com/engine/installation/) to install Docker
 
-## Install
-There are 2 distribution methods currently supported. They're both compatible with Linux & Mac. Windows support is on the way.
+#### About Node.js
 
-#### Via npm
-If you already have node.js installed in your computer you can install **emp** using ``npm``.
+This tool is written in JavaScript. **Node.js** is a JavaScript runtime required to run  this program on your computer.
+
+#### About Docker
+
+**Docker** is one of the enabling technologies that's used in this framework. Docker allows us to create self-contained portable environments that work accross different platforms.
+
+## Install
+
+**emp** is supported on Windows, Mac and Linux.
+Once you have node.js installed on your computer, you can install **emp** using ``npm``. 
 ```
 npm install -g empirical-cli
-```
-
-#### Docker container distribution
-If you don't have node.js installed of if you have any troubles with the node distribution,
-you can use **emp** as a Docker container, just by installing the launcher:
-```
-curl -s https://raw.githubusercontent.com/empiricalci/emp/master/install.sh | sudo sh
 ```
 
 ## Get started
@@ -104,3 +105,13 @@ tests or experiments. This defaults to ``~/empirical``. You can change this by d
 ```
 emp configure
 ```
+
+## Notes
+
+### About Docker on Windows
+
+If you're using the [Docker for Windows](https://docs.docker.com/docker-for-windows) version, as opposed to [Docker toolbox](https://docs.docker.com/toolbox/overview/) make sure of the following:
+
+- **emp** requires to mount certain directories on your containers, so make sure to [share your local drives](https://docs.docker.com/docker-for-windows/#/shared-drives).
+- **emp** can usually communicate with Docker using the default settings. If it fails to connect, make sure the ``DOCKER_HOST`` environment variable is set to the correct value. On [Docker for Windows](https://docs.docker.com/docker-for-windows) this defaults to ``127.0.0.1:2375``. You can set it using CMD as ``setx DOCKER_HOST "127.0.0.1:2375"``.
+

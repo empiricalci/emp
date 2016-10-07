@@ -1,5 +1,8 @@
 sudo: required
-language: javascript
+language: node_js
+node_js:
+  - 4
+  - node
 services:
 - docker
 addons:
