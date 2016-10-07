@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.0 (7 Oct 2016)
+- Windows compatibility via npm distribution
+
 ## v0.3.2 (28 Sep 2016)
 - Don't hardcode docker socket
 - Fix json stream parsing from build image
