@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.2 (12 Oct 2016)
+- Upgrades dataset-cache to v2.0.2: 
+Fixes windows checksum missmatch for directories
+
 ## v0.4.1 (11 Oct 2016)
 - Upgrade dataset-cache to v2.0.1. This change makes it required to pass a
 ``directory: true`` flag when the resource is going to be extracted to a directory from ``.zip`` or ``.tar.gz``  
