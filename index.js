@@ -40,10 +40,10 @@ function captureDirectory () {
   })
 }
 
-function dataCLI (subcommand, source) {
+function dataCLI (subcommand, source, dir) {
   switch (subcommand) {
     case 'get':
-      return data.get(source).then(function (info) {
+      return data.get(source, dir).then(function (info) {
         logger.json(info)
       }).catch(function (err) {
         logger.error(err.message)
@@ -94,7 +94,7 @@ function execute (args) {
         console.log('Logged out successfully. Credentials cleared.')
       })
     case 'data':
-      return dataCLI(args._[3], args._[4])
+      return dataCLI(args._[3], args._[4], args.dir)
     case 'version':
       return version()
     default:
@@ -103,7 +103,7 @@ function execute (args) {
 }
 
 config.load().then(function () {
-  var argv = require('minimist')(process.argv)
+  var argv = require('minimist')(process.argv, {boolean: 'dir'})
   client.init({
     host: process.env.EMPIRICAL_HOST,
     auth: process.env.EMPIRICAL_AUTH

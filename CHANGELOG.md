@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.1 (11 Oct 2016)
+- Upgrade dataset-cache to v2.0.1. This change makes it required to pass a
+``directory: true`` flag when the resource is going to be extracted to a directory from ``.zip`` or ``.tar.gz``  
+- ``emp data --dir URL.(zip|tar.gz)`` will download the file and extract the contents to a directory
+
 ## v0.4.0 (7 Oct 2016)
 - Windows compatibility via npm distribution
 
