@@ -24,7 +24,7 @@
   "dependencies": {
     "amqplib": "^0.4.0",
     "colors": "^1.1.2",
-    "dataset-cache": "^2.0.1",
+    "dataset-cache": "^2.0.2",
     "debug": "^2.2.0",
     "dockerise": "^2.1.4",
     "dockerode": "^2.3.0",
