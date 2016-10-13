@@ -8,6 +8,7 @@ const run = require('../lib/run')
 const replicate = require('../lib/replicate')
 const logger = require('../lib/logger')
 const read = require('read')
+const runInteractive = require('../lib/run-interactive')
 const client = require('empirical-client')
 const push = require('../lib/push')
 const isExperimentId = require('../lib/is-experiment-id')
@@ -68,6 +69,13 @@ function execute (args) {
       if (!args._[3] || args.help || args.h) {
         usage.run()
         return Promise.resolve()
+      }
+      if (args.interactive || args.i) {
+        console.log('GONNA RUN INTERACTIVE')
+        return runInteractive({
+          protocol: args._[3],
+          code_path: args._[4]
+        }, logger)
       }
       if (isExperimentId(args._[3])) {
         return replicate(args._[3], logger)
