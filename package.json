@@ -26,7 +26,7 @@
     "colors": "^1.1.2",
     "dataset-cache": "^2.0.2",
     "debug": "^2.2.0",
-    "dockerise": "^2.1.4",
+    "dockerise": "alantrrs/dockerise#pass-all-params",
     "dockerode": "^2.3.0",
     "empirical-client": "^0.3.0",
     "minimist": "^1.2.0",

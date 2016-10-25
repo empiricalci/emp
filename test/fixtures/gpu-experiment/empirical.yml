@@ -1,0 +1,6 @@
+protocols:
+  nvidia-test:
+    environment:
+      build: .
+      gpu_enabled: true
+      entrypoint: nvidia-smi
