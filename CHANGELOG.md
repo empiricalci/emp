@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.5.0 (26 Oct 2016)
+- Allows to run GPU enabled docker containers by reading GPU info provided by nvidia-docker-plugin
+- Upgrades dockerise to v0.3.0
+- Fixes logger.write()
+
 ## v0.4.2 (12 Oct 2016)
 - Upgrades dataset-cache to v2.0.2: 
 Fixes windows checksum missmatch for directories
