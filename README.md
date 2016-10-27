@@ -23,6 +23,7 @@ using the [Empirical Framework](https://empiricalci.com/docs/framework)
 There are only 2 requirements:
 
 - Download and install Node.js [from here](https://nodejs.org/en/).
+**Note:** Node.js v7.0.0 is not yet compatible.
 - Follow [these instructions](https://docs.docker.com/engine/installation/) to install Docker
 
 #### About Node.js
