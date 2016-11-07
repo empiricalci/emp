@@ -2,8 +2,9 @@
   "name": "empirical-cli",
   "version": "0.5.0",
   "description": "Empirical Package Manager",
+  "main": "./lib",
   "bin": {
-    "emp": "./index.js"
+    "emp": "./bin/cli.js"
   },
   "scripts": {
     "lint": "standard",

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-var data = require('./lib/data')
-var usage = require('./lib/usage')
-var config = require('./lib/config')
-var auth = require('./lib/auth')
-var run = require('./lib/run')
-const replicate = require('./lib/replicate')
-var logger = require('./lib/logger')
-var read = require('read')
+const data = require('../lib/data')
+const usage = require('../lib/usage')
+const config = require('../lib/config')
+const auth = require('../lib/auth')
+const run = require('../lib/run')
+const replicate = require('../lib/replicate')
+const logger = require('../lib/logger')
+const read = require('read')
 const client = require('empirical-client')
 
 function version () {
@@ -102,7 +102,8 @@ function execute (args) {
   }
 }
 
-config.load().then(function () {
+Promise.resolve().then(function () {
+  config.load()
   var argv = require('minimist')(process.argv, {boolean: 'dir'})
   client.init({
     host: process.env.EMPIRICAL_HOST,

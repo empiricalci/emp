@@ -1,6 +1,6 @@
 
 const env = require('node-env-file')
-const mkdirMaybe = require('./mkdir-maybe')
+const mkdirp = require('mkdirp')
 const fs = require('fs')
 const path = require('path')
 const assert = require('assert')
@@ -8,40 +8,33 @@ const assert = require('assert')
 const homeDir = /^win/.test(process.platform) ? `${process.env.HOMEDRIVE}${process.env.HOMEPATH}` : process.env.HOME
 const envConfigFile = path.join(homeDir, '.emp', 'emp.env')
 
-function loadOrCreateConfig (envFile) {
-  return new Promise(function (resolve, reject) {
-    fs.lstat(envFile, function (err, stats) {
-      if (err && err.code !== 'ENOENT') return reject(err)
-      if (err || !stats.isFile()) {
-        return mkdirMaybe(path.dirname(envFile))
-        .then(function (dir) {
-          fs.writeFileSync(
-            envFile,
-            `EMPIRICAL_DIR=${path.join(homeDir, 'empirical')}`
-          )
-          return resolve()
-        })
-      } else {
-        return resolve()
-      }
-    })
-  }).then(function () {
-    env(envFile)
-  })
+function createConfigFile () {
+  mkdirp.sync(path.join(homeDir, '.emp'))
+  fs.writeFileSync(
+    envConfigFile,
+    `EMPIRICAL_DIR=${path.join(homeDir, 'empirical')}`
+  )
 }
 
 exports.load = function () {
   // Host
   process.env.EMPIRICAL_HOST = process.env.EMPIRICAL_HOST || 'https://empiricalci.com'
-  // Check if the file exist
-  return loadOrCreateConfig(envConfigFile)
+  // Create config file if it doesn't exists
+  try {
+    var stats = fs.lstatSync(envConfigFile)
+    if (!stats.isFile()) createConfigFile()
+  } catch (err) {
+    if (err && err.code === 'ENOENT') createConfigFile()
+  }
+  // Load config
+  env(envConfigFile)
   // Setup paths
-  .then(function () {
-    assert(process.env.EMPIRICAL_DIR, 'There\'s no EMPIRICAL_DIR defined')
-    // Define dirs
-    process.env.DATA_PATH = path.join(process.env.EMPIRICAL_DIR, 'data')
-    process.env.WORKSPACES_PATH = path.join(process.env.EMPIRICAL_DIR, 'workspaces')
-  })
+  assert(process.env.EMPIRICAL_DIR, 'There\'s no EMPIRICAL_DIR defined')
+  // Define dirs
+  process.env.DATA_PATH = path.join(process.env.EMPIRICAL_DIR, 'data')
+  process.env.WORKSPACES_PATH = path.join(process.env.EMPIRICAL_DIR, 'workspaces')
+  mkdirp(process.env.DATA_PATH)
+  mkdirp(process.env.WORKSPACES_PATH)
 }
 
 exports.update = function update (config) {
