@@ -179,6 +179,8 @@ describe('runExperiment', function () {
   it('should fail if the experiment fails')
 })
 
+require('./pull')
+
 describe('run()', function () {
   const run = require('../lib/run')
   it('should run an experiment', function (done) {
