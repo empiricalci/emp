@@ -16,11 +16,21 @@ describe('pull', function () {
       done()
     }).catch(done)
   })
-  it('should pull a project using ssh keys', function (done) {
-    var project = Object.assign({}, testProject, {auth_method: 'ssh'})
-    pull(project).then(function (res) {
-      assert(fs.lstatSync(res.code_path).isDirectory())
-      done()
-    }).catch(done)
+  describe('As admin', function () {
+    // Set auth to admin
+    before(function () {
+      require('empirical-client').setAuth('empirical-tester', 'superman')
+    })
+    it('should pull a project using ssh keys', function (done) {
+      var project = Object.assign({}, testProject, {auth_method: 'ssh'})
+      pull(project).then(function (res) {
+        assert(fs.lstatSync(res.code_path).isDirectory())
+        done()
+      }).catch(done)
+    })
+    // Back to regular user
+    after(function () {
+      require('empirical-client').setAuth('empirical-bot', 'password')
+    })
   })
 })
