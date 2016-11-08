@@ -4,8 +4,8 @@
 
 # Use node
 FROM node:6-slim
-RUN apt-get update
-RUN apt-get install -y git
+# Build tools
+RUN apt-get update && apt-get install -y git build-essential libssl-dev
 # Install Empirical
 COPY package.json /emp/package.json
 WORKDIR /emp
