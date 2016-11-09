@@ -2,7 +2,7 @@
 
 const data = require('../lib/data')
 const usage = require('../lib/usage')
-const config = require('../lib/config')
+const config = require('../config')
 const auth = require('../lib/auth')
 const run = require('../lib/run')
 const replicate = require('../lib/replicate')
