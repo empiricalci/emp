@@ -33,8 +33,8 @@ exports.load = function () {
   // Define dirs
   process.env.DATA_PATH = path.join(process.env.EMPIRICAL_DIR, 'data')
   process.env.WORKSPACES_PATH = path.join(process.env.EMPIRICAL_DIR, 'workspaces')
-  mkdirp(process.env.DATA_PATH)
-  mkdirp(process.env.WORKSPACES_PATH)
+  mkdirp.sync(process.env.DATA_PATH)
+  mkdirp.sync(process.env.WORKSPACES_PATH)
 }
 
 exports.update = function update (config) {

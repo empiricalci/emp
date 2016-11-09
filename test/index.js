@@ -34,6 +34,8 @@ describe('config', function () {
     assert.equal(process.env.EMPIRICAL_DIR, `${process.env.HOME}/empirical`)
     assert.equal(process.env.DATA_PATH, `${process.env.HOME}/empirical/data`)
     assert.equal(process.env.WORKSPACES_PATH, `${process.env.HOME}/empirical/workspaces`)
+    assert(fs.lstatSync(`${process.env.HOME}/empirical/data`).isDirectory())
+    assert(fs.lstatSync(`${process.env.HOME}/empirical/workspaces`).isDirectory())
     done()
   })
   it('.update() should save updated variables', function (done) {
