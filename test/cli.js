@@ -16,7 +16,7 @@ before(function (done) {
 })
 
 describe('emp configure', function () {
-  const emp = spawn('node', ['index.js', 'configure'])
+  const emp = spawn('node', ['./bin/cli.js', 'configure'])
   emp.stderr.on('data', function (err) {
     console.log(err.toString())
   })
@@ -46,7 +46,7 @@ describe('emp configure', function () {
   })
   it('Fails if passed a non-absolute directory', function (done) {
     this.timeout(30000)
-    const emp2 = spawn('node', ['index.js', 'configure'])
+    const emp2 = spawn('node', ['./bin/cli.js', 'configure'])
     emp2.stdout.once('data', function (log) {
       emp2.stdin.write('node_modules/\n')
     })
@@ -60,7 +60,7 @@ describe('emp configure', function () {
 describe('emp run', function () {
   it('runs the experiment', function (done) {
     this.timeout(60000)
-    exec('node index.js run hello-world node_modules/fixtures/standalone_project', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js run hello-world node_modules/fixtures/standalone_project', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()
@@ -72,14 +72,14 @@ describe('emp data', function () {
   const test_url = 'https://raw.githubusercontent.com/empiricalci/fixtures/data.csv'
   const test_hash = '986915f2caa2c8f9538f0b77832adc8abf3357681d4de5ee93a202ebf19bd8b8'
   it('get url should save and log dataset', function (done) {
-    exec('node index.js data get ' + test_url, function (err, stdout, stderr) {
+    exec('node ./bin/cli.js data get ' + test_url, function (err, stdout, stderr) {
       assert.ifError(err)
       assert(fs.lstatSync('/tmp/emp/data/' + test_hash).isFile())
       done()
     })
   })
   it('hash file should log the hash of the file', function (done) {
-    exec(`node index.js data hash /tmp/emp/data/${test_hash}`, function (err, stdout, stderr) {
+    exec(`node ./bin/cli.js data hash /tmp/emp/data/${test_hash}`, function (err, stdout, stderr) {
       assert.ifError(err)
       assert(stdout.indexOf(test_hash) > -1)
       done()
@@ -89,7 +89,7 @@ describe('emp data', function () {
 
 describe('emp login', function () {
   it('works with the right credentials', function (done) {
-    const emp = spawn('node', ['index.js', 'login'])
+    const emp = spawn('node', ['./bin/cli.js', 'login'])
     emp.on('close', function (code) {
       assert.equal(code, 0)
       done()
@@ -107,7 +107,7 @@ describe('emp login', function () {
     })
   })
   it('failed with the wrong credentials', function (done) {
-    const emp = spawn('node', ['index.js', 'login'])
+    const emp = spawn('node', ['./bin/cli.js', 'login'])
     emp.on('close', function (code) {
       assert.equal(code, 1)
       done()
@@ -129,7 +129,7 @@ describe('emp login', function () {
 describe('emp run --save <owner/project>', function (done) {
   it('runs and saves the experiment for the current version', function (done) {
     this.timeout(60000)
-    exec('node index.js run --save empiricalci/mnist-sample mnist /tmp/mnist-test-project', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js run --save empiricalci/mnist-sample mnist /tmp/mnist-test-project', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()
@@ -137,7 +137,7 @@ describe('emp run --save <owner/project>', function (done) {
   })
   it('runs and saves an experiment for a specific version of the code', function (done) {
     this.timeout(60000)
-    exec('node index.js run -v d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a -s empiricalci/mnist-sample mnist', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js run -v d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a -s empiricalci/mnist-sample mnist', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()
@@ -148,7 +148,7 @@ describe('emp run --save <owner/project>', function (done) {
 describe('emp replicate', function () {
   it('replicates into the current directory', function (done) {
     this.timeout(60000)
-    exec('node index.js replicate empiricalci/mnist-sample/mnist/mnistExperiment', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js replicate empiricalci/mnist-sample/mnist/mnistExperiment', function (err, stdout, stderr) {
       console.log(stdout)
       if (err) return done(err)
       // TODO: Add assertions
@@ -157,7 +157,7 @@ describe('emp replicate', function () {
   })
   it('replicates into another directory', function (done) {
     this.timeout(60000)
-    exec('node index.js replicate empiricalci/mnist-sample/mnist/mnistExperiment /tmp/random', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js replicate empiricalci/mnist-sample/mnist/mnistExperiment /tmp/random', function (err, stdout, stderr) {
       console.log(stdout)
       if (err) return done(err)
       // TODO: Add assertions
@@ -168,7 +168,7 @@ describe('emp replicate', function () {
 
 describe('emp logout', function () {
   it('clears credentials and logs confirmation', function (done) {
-    exec('node index.js logout', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js logout', function (err, stdout, stderr) {
       assert.equal(stdout, 'Logged out successfully. Credentials cleared.\n')
       assert.ifError(err)
       fs.readFile(ENV_FILE, 'utf8', function (err, content) {

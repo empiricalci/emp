@@ -11,4 +11,4 @@ COPY package.json /emp/package.json
 WORKDIR /emp
 RUN npm install
 COPY . /emp
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["node", "./bin/cli.js"]
