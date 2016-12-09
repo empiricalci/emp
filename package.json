@@ -7,9 +7,9 @@
   },
   "scripts": {
     "lint": "standard",
-    "test": "EMPIRICAL_ENV=test mocha test/index.js",
-    "test-cli": "EMPIRICAL_ENV=test mocha test/cli.js",
-    "test-cov": "EMPIRICAL_ENV=test istanbul cover _mocha -- -u exports -R spec test/index.js"
+    "test": "mocha test/index.js",
+    "test-cli": "mocha test/cli.js",
+    "test-cov": "istanbul cover _mocha -- -u exports -R spec test/index.js"
   },
   "repository": {
     "type": "git",

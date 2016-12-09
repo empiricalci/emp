@@ -11,7 +11,7 @@ logger.writeToConsole(false)
 
 const ENV_FILE = path.join(process.env.HOME, '/.emp/emp.env')
 const code_dir = '/tmp/mnist-test-project'
-const tmpPath = '/tmp/some_dir'
+const tmpPath = path.join('/tmp', 'some_dir')
 const tmpPath2 = path.join(process.cwd(), 'mnist')
 
 before(function (done) {
@@ -25,17 +25,17 @@ before(function (done) {
   })
 })
 
-const newDir = '/tmp/empirical'
+const newDir = path.join('/tmp', 'empirical')
 describe('config', function () {
   var config = require('../config')
   it('.load() should create a default config file if there is none', function (done) {
     config.load()
     assert(fs.lstatSync(ENV_FILE).isFile())
-    assert.equal(process.env.EMPIRICAL_DIR, `${process.env.HOME}/empirical`)
-    assert.equal(process.env.DATA_PATH, `${process.env.HOME}/empirical/data`)
-    assert.equal(process.env.WORKSPACES_PATH, `${process.env.HOME}/empirical/workspaces`)
-    assert(fs.lstatSync(`${process.env.HOME}/empirical/data`).isDirectory())
-    assert(fs.lstatSync(`${process.env.HOME}/empirical/workspaces`).isDirectory())
+    assert.equal(process.env.EMPIRICAL_DIR, path.join(process.env.HOME, 'empirical'))
+    assert.equal(process.env.DATA_PATH, path.join(process.env.HOME, 'empirical', 'data'))
+    assert.equal(process.env.WORKSPACES_PATH, path.join(process.env.HOME, 'empirical', 'workspaces'))
+    assert(fs.lstatSync(path.join(process.env.HOME, 'empirical', 'data')).isDirectory())
+    assert(fs.lstatSync(path.join(process.env.HOME, 'empirical', 'workspaces')).isDirectory())
     done()
   })
   it('.update() should save updated variables', function (done) {
@@ -57,10 +57,10 @@ describe('config', function () {
   it('.load() should load the env variables if the file exists', function (done) {
     config.load()
     assert.equal(process.env.EMPIRICAL_DIR, newDir)
-    assert.equal(process.env.DATA_PATH, `${newDir}/data`)
-    assert.equal(process.env.WORKSPACES_PATH, `${newDir}/workspaces`)
-    assert(fs.lstatSync(`${newDir}/data`).isDirectory())
-    assert(fs.lstatSync(`${newDir}/workspaces`).isDirectory())
+    assert.equal(process.env.DATA_PATH, path.join(newDir, 'data'))
+    assert.equal(process.env.WORKSPACES_PATH, path.join(newDir, 'workspaces'))
+    assert(fs.lstatSync(path.join(newDir, 'data')).isDirectory())
+    assert(fs.lstatSync(path.join(newDir, 'workspaces')).isDirectory())
     done()
   })
 })
