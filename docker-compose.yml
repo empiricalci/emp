@@ -1,0 +1,14 @@
+version: '2'
+services:
+  empirical-api:
+    image: empiricalci/empirical
+    ports:
+      - 1337:1337
+    environment:
+      - AWS_SECRET_KEY=$AWS_SECRET_KEY
+      - AWS_ACCESS_KEY=$AWS_ACCESS_KEY
+      - DB_HOST=db
+      - DB_PORT=28015
+    entrypoint: npm run test-server
+  db:
+    image: rethinkdb
