@@ -12,7 +12,7 @@ logger.writeToConsole(false)
 const ENV_FILE = path.join(process.env.HOME, '/.emp/emp.env')
 const code_dir = '/tmp/mnist-test-project'
 const tmpPath = path.join('/tmp', 'some_dir')
-const tmpPath2 = path.join(process.cwd(), 'mnist')
+const tmpPath2 = path.join(process.cwd(), 'mnistExperiment')
 
 before(function (done) {
   process.env.EMPIRICAL_HOST = 'http://localhost:1337'
@@ -239,8 +239,8 @@ describe('run()', function () {
     this.timeout(60000)
     run({
       protocol: 'mnist',
-      head_sha: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a',
-      project: 'empiricalci/mnist-sample'
+      commit: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a',
+      code_path: 'https://github.com/empiricalci/mnist-sample'
     }, logger)
     .then(function () {
       // TODO: Assert
@@ -254,7 +254,7 @@ describe('replicate()', function () {
   const replicate = require('../lib/replicate')
   it('should download and run an experiment and save the code on the given path', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', tmpPath, logger).then(function () {
+    replicate('empiricalci/mnist-sample/x/mnistExperiment', tmpPath, logger).then(function () {
       assert(fs.lstatSync(tmpPath).isDirectory())
       // TODO: Assertions
       done()
@@ -262,7 +262,7 @@ describe('replicate()', function () {
   })
   it('should save code on current directory if no code path is given', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist-sample/mnist/mnistExperiment', undefined, logger).then(function () {
+    replicate('empiricalci/mnist-sample/x/mnistExperiment', undefined, logger).then(function () {
       assert(fs.lstatSync(tmpPath2).isDirectory())
       // TODO: Assertions
       done()

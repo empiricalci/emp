@@ -27,7 +27,7 @@
     "debug": "^2.2.0",
     "dockerise": "^3.0.0",
     "dockerode": "^2.3.0",
-    "empirical-client": "^0.3.0",
+    "empirical-client": "empiricalci/empirical-client#asset-uploader",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "node-env-file": "^0.1.8",

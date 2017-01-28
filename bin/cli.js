@@ -76,8 +76,7 @@ function execute (args) {
       return run({
         protocol: args._[3],
         code_path: args._[4],
-        project: args.s || args.save,
-        head_sha: args.v || args.version
+        commit: args.c || args.commit
       }, logger)
     case 'configure':
       return captureDirectory().then(config.updateDir)

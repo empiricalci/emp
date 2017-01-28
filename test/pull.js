@@ -6,9 +6,9 @@ const fs = require('fs')
 describe('pull', function () {
   const pull = require('../lib/pull')
   const testProject = {
-    project: 'empiricalci/mnist-sample',
+    repo: 'https://github.com/empiricalci/mnist-sample',
     private: true,
-    head_sha: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
+    commit: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
   }
   it('should pull a project using auth token', function (done) {
     pull(testProject).then(function (res) {
@@ -16,7 +16,7 @@ describe('pull', function () {
       done()
     }).catch(done)
   })
-  describe('As admin', function () {
+  describe.skip('As admin', function () {
     // Set auth to admin
     before(function () {
       require('empirical-client').setAuth('empirical-tester', 'superman')
