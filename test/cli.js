@@ -126,29 +126,12 @@ describe('emp login', function () {
   })
 })
 
-describe('emp run --save <owner/project>', function (done) {
-  it('runs and saves the experiment for the current version', function (done) {
-    this.timeout(60000)
-    exec('node ./bin/cli.js run --save empiricalci/mnist-sample mnist /tmp/mnist-test-project', function (err, stdout, stderr) {
-      if (err) return done(err)
-      // TODO: Add assertions
-      done()
-    })
-  })
-  it('runs and saves an experiment for a specific version of the code', function (done) {
-    this.timeout(60000)
-    exec('node ./bin/cli.js run -v d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a -s empiricalci/mnist-sample mnist', function (err, stdout, stderr) {
-      if (err) return done(err)
-      // TODO: Add assertions
-      done()
-    })
-  })
-})
+// TODO: test emp push
 
 describe('emp replicate', function () {
   it('replicates into the current directory', function (done) {
     this.timeout(60000)
-    exec('node ./bin/cli.js replicate empiricalci/mnist-sample/mnist/mnistExperiment', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js replicate empiricalci/mnist/x/mnistExperiment', function (err, stdout, stderr) {
       console.log(stdout)
       if (err) return done(err)
       // TODO: Add assertions
@@ -157,7 +140,7 @@ describe('emp replicate', function () {
   })
   it('replicates into another directory', function (done) {
     this.timeout(60000)
-    exec('node ./bin/cli.js replicate empiricalci/mnist-sample/mnist/mnistExperiment /tmp/random', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js replicate empiricalci/mnist/x/mnistExperiment /tmp/random', function (err, stdout, stderr) {
       console.log(stdout)
       if (err) return done(err)
       // TODO: Add assertions
