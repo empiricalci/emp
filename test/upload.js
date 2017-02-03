@@ -10,6 +10,7 @@ describe('upload files', function () {
   const ignores = ['README.md']
   var assets
   it('list all files and directories', function (done) {
+    this.timeout(10000)
     uploader('empirical-bot/my-solver/x/myBuild', dir, ignores).then(function (files) {
       assets = files
       assert.equal(files.length, 10)
