@@ -270,6 +270,8 @@ describe('replicate()', function () {
   })
 })
 
+require('./upload')
+
 after(function (done) {
   rm(tmpPath, function () {
     rm(tmpPath2, function () {
