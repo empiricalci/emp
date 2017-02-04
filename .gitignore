@@ -1,4 +1,4 @@
 node_modules/
-*.log
+npm-debug.log
 *.env
 coverage/
