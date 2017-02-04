@@ -9,6 +9,7 @@ const replicate = require('../lib/replicate')
 const logger = require('../lib/logger')
 const read = require('read')
 const client = require('empirical-client')
+const push = require('../lib/push')
 
 function version () {
   const emp_version = require('./package.json').version
@@ -78,6 +79,12 @@ function execute (args) {
         code_path: args._[4],
         commit: args.c || args.commit
       }, logger)
+    case 'push':
+      return push(
+        args._[4],
+        args._[3],
+        args.m || args.message
+      )
     case 'configure':
       return captureDirectory().then(config.updateDir)
     case 'login':
