@@ -34,12 +34,7 @@ npm install -g empirical-cli
 ## Get started
 Test your installation by replicating an experiment.
 ```
-emp replicate empiricalci/mnist/SJCSKAeT
-```
-
-You can easily replicate any experiment pushed to [empiricalci](https://empiricalci.com) by running:
-```
-emp replicate <experimentId>
+emp run empiricalci/mnist/x/SJCSKAeT
 ```
 
 This will clone the source code from GitHub, checkout the appropriate version, 
@@ -53,6 +48,12 @@ Once you have defined your experiment using the [Empirical Framework](http://emp
 Run an experiment drectly from a GitHub repository.
 ```
 emp run mnist https://github.com/empiricalci/mnist-sample#0e6b04363c374992eb94a80dd2db0895711fb60f
+```
+
+### From empiricalci.com
+You can easily replicate any experiment pushed to [empiricalci](https://empiricalci.com) by running:
+```
+emp run <experimentId>
 ```
 
 ### From a local directory
