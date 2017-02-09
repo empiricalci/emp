@@ -1,10 +1,8 @@
 
 <h1 align='center'>
   <a href='https://empiricalci.com'>
-    <img src='https://cloud.githubusercontent.com/assets/689720/17884275/43072938-68cc-11e6-9131-ca0ffa0afa0a.png'/>
+    <img src='https://cloud.githubusercontent.com/assets/689720/22778232/1723bff0-ee6b-11e6-9703-07b9d7d5a58d.png'/>
   </a>
-  <br/>
-  emp
 </h1>
 <p align='center'>
   <i>A Package Manager for Empirical Science</i><br/><br/>
