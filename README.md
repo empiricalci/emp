@@ -22,14 +22,8 @@ using the [Empirical Framework](https://empiricalci.com/docs/framework)
 ## Dependencies
 There are only 2 requirements:
 
-#### Node.js
-**Node.js** is a JavaScript runtime required to run  this program on your computer.
-Download and install Node.js [from here](https://nodejs.org/en/).
-**Note:** Node.js v7.0.0 is not yet compatible.
-
-#### Docker
-**Docker** allows us to create self-contained portable environments that work accross different platforms.
-Follow [these instructions](https://docs.docker.com/engine/installation/) to install Docker.
+- **Node.js** is a JavaScript runtime required to run  this program on your computer. Download and install Node.js [from here](https://nodejs.org/en/). **Note:** Node.js v7.0.0 is not yet compatible.
+- **Docker** allows us to create self-contained portable environments that work accross different platforms. Follow [these instructions](https://docs.docker.com/engine/installation/) to install Docker.
 
 ## Install
 
@@ -69,15 +63,18 @@ Or you can run an experiment from a local directory.
 emp run my-protocol /path/to/code
 ```
 
-## Save the results of your experiments
+## Keep track of your experiments
 
 ### Authenticate with the server
 Authenticating with [empiricalci.com](https://empiricalci.com) allows you to save the results of your experiments
-and share them with your peers.
-1. If you haven't done so, sign up for an account on [empiricalci.com](http://empiricalci.com)  
+and share them with your peers.  
+1. If you haven't done so, sign up for an account on [empiricalci.com](http://empiricalci.com)    
 2. Login using the CLI: ``emp login`` will ask for your credentials and store them on your computer  
 
 ### Push your results
+
+Push your results to the online dashboard by providing a message a path to the output directory created by ``emp run`` and the project id.
+
 ```
 emp push -m "Experiment message" /path/to/report <projectId>
 ```
@@ -94,12 +91,9 @@ emp configure
 
 ### GPU Support
 
-GPU support is provided for Linux via [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).
-Follow the instructions on the ["Quick start"](https://github.com/NVIDIA/nvidia-docker#quick-start) to install it.
-Learn how to run GPU enabled experiments [here](http://empiricalci.com/docs/gpu-support)
+GPU support is provided for Linux via [nvidia-docker](https://github.com/NVIDIA/nvidia-docker), you can follow the instructions on the ["Quick start"](https://github.com/NVIDIA/nvidia-docker#quick-start) to install it and learn how to run GPU enabled experiments [here](http://empiricalci.com/docs/gpu-support).
 
-Currently Windows and MacOS are not supported since they
-rely on VMs to run Docker. See [this issue](https://github.com/NVIDIA/nvidia-docker/issues/101) for more information.
+Currently Windows and MacOS are not supported since they rely on VMs to run Docker. See [this issue](https://github.com/NVIDIA/nvidia-docker/issues/101) for more information.
 
 
 ### About Docker on Windows

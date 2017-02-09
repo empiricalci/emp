@@ -70,14 +70,13 @@ function execute (args) {
         return Promise.reject()
       })
     case 'run':
-      if (args.help || args.h) {
+      if (!args._[3] || args.help || args.h) {
         usage.run()
         return Promise.resolve()
       }
       return run({
         protocol: args._[3],
-        code_path: args._[4],
-        commit: args.c || args.commit
+        code_path: args._[4]
       }, logger)
     case 'push':
       return push(
