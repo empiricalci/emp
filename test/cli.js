@@ -66,6 +66,14 @@ describe('emp run', function () {
       done()
     })
   })
+  it('replicates experiment from empiricalci', function (done) {
+    this.timeout(60000)
+    exec('node ./bin/cli.js run empiricalci/mnist/x/mnistExperiment', function (err, stdout, stderr) {
+      if (err) return done(err)
+      // TODO: Add assertions
+      done()
+    })
+  })
 })
 
 describe('emp data', function () {
@@ -130,25 +138,6 @@ describe('emp push', function () {
   it('uploads report & artifacts to the server', function (done) {
     this.timeout(60000)
     exec('node ./bin/cli.js push -m "Changed number of layers" test/fixtures/test-report empirical-bot/my-solver', function (err, stdout, stderr) {
-      if (err) return done(err)
-      // TODO: Add assertions
-      done()
-    })
-  })
-})
-
-describe('emp replicate', function () {
-  it('replicates into the current directory', function (done) {
-    this.timeout(60000)
-    exec('node ./bin/cli.js replicate empiricalci/mnist/x/mnistExperiment', function (err, stdout, stderr) {
-      if (err) return done(err)
-      // TODO: Add assertions
-      done()
-    })
-  })
-  it('replicates into another directory', function (done) {
-    this.timeout(60000)
-    exec('node ./bin/cli.js replicate empiricalci/mnist/x/mnistExperiment /tmp/random', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()

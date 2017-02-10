@@ -222,28 +222,41 @@ describe('run()', function () {
       done()
     }).catch(done)
   })
-  it('should save an experiment', function (done) {
+  it('should run an experiment from a local directory', function (done) {
     this.timeout(60000)
     run({
       protocol: 'mnist',
-      code_path: code_dir,
-      project: 'empiricalci/mnist-sample'
+      code_path: code_dir
     }, logger)
-    .then(function () {
-      // TODO: Assert
+    .then(function (report) {
+      assert(fs.lstatSync(report.source.path).isDirectory())
       done()
     })
     .catch(done)
   })
-  it('should save an experiment for a specific version', function (done) {
+  it('should run an experiment from a specific GitHub commit', function (done) {
     this.timeout(60000)
     run({
       protocol: 'mnist',
-      commit: 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a',
+      code_path: 'https://github.com/empiricalci/mnist-sample#d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
+    }, logger)
+    .then(function (report) {
+      assert.equal(report.source.repo, 'https://github.com/empiricalci/mnist-sample')
+      assert.equal(report.source.commit, 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a')
+      assert(fs.lstatSync(report.source.path).isDirectory())
+      done()
+    })
+    .catch(done)
+  })
+  it('should run an experiment from GitHub without a commit', function (done) {
+    this.timeout(60000)
+    run({
+      protocol: 'mnist',
       code_path: 'https://github.com/empiricalci/mnist-sample'
     }, logger)
-    .then(function () {
-      // TODO: Assert
+    .then(function (report) {
+      assert.equal(report.source.repo, 'https://github.com/empiricalci/mnist-sample')
+      assert(fs.lstatSync(report.source.path).isDirectory())
       done()
     })
     .catch(done)
@@ -252,19 +265,10 @@ describe('run()', function () {
 
 describe('replicate()', function () {
   const replicate = require('../lib/replicate')
-  it('should download and run an experiment and save the code on the given path', function (done) {
-    this.timeout(60000)
-    replicate('empiricalci/mnist-sample/x/mnistExperiment', tmpPath, logger).then(function () {
-      assert(fs.lstatSync(tmpPath).isDirectory())
-      // TODO: Assertions
-      done()
-    }).catch(done)
-  })
   it('should save code on current directory if no code path is given', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist-sample/x/mnistExperiment', undefined, logger).then(function () {
-      assert(fs.lstatSync(tmpPath2).isDirectory())
-      // TODO: Assertions
+    replicate('empiricalci/mnist-sample/x/mnistExperiment', logger).then(function (report) {
+      assert(fs.lstatSync(report.source.path).isDirectory())
       done()
     }).catch(done)
   })

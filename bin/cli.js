@@ -10,6 +10,7 @@ const logger = require('../lib/logger')
 const read = require('read')
 const client = require('empirical-client')
 const push = require('../lib/push')
+const isExperimentId = require('../lib/is-experiment-id')
 
 function version () {
   const emp_version = require('./package.json').version
@@ -63,16 +64,13 @@ function dataCLI (subcommand, source, dir) {
 
 function execute (args) {
   switch (args._[2]) {
-    case 'replicate':
-      return replicate(args._[3], args._[4], logger)
-      .catch(function (err) {
-        logger.log(err.message)
-        return Promise.reject()
-      })
     case 'run':
       if (!args._[3] || args.help || args.h) {
         usage.run()
         return Promise.resolve()
+      }
+      if (isExperimentId(args._[3])) {
+        return replicate(args._[3], logger)
       }
       return run({
         protocol: args._[3],
@@ -96,7 +94,7 @@ function execute (args) {
       })
     case 'logout':
       return auth.logout().then(function () {
-        console.log('Logged out successfully. Credentials cleared.')
+        logger.log('Logged out successfully. Credentials cleared.')
       })
     case 'data':
       return dataCLI(args._[3], args._[4], args.dir)
@@ -107,18 +105,17 @@ function execute (args) {
   }
 }
 
-Promise.resolve().then(function () {
-  config.load()
-  var argv = require('minimist')(process.argv, {boolean: 'dir'})
-  client.init({
-    host: process.env.EMPIRICAL_HOST,
-    auth: process.env.EMPIRICAL_AUTH
-  })
-  return execute(argv)
-}).then(function () {
+config.load()
+var argv = require('minimist')(process.argv, {boolean: 'dir'})
+client.init({
+  host: process.env.EMPIRICAL_HOST,
+  auth: process.env.EMPIRICAL_AUTH
+})
+execute(argv).then(function () {
   // Exit normally
   process.exit(0)
-}).catch(function () {
+}).catch(function (err) {
+  logger.error(err)
   // Exit with an error
   process.exit(1)
 })
