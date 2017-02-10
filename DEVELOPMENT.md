@@ -1,26 +1,42 @@
+# DEVELOPMENT
 
-# EMP
-_Empirical Client_ 
----
-
-**emp** is a client that connects to  **empiricalci.com** to automate running experiments in your computer
-
-## Use
-### Build the image
-The ``node_modules/`` are built  and cached into the image. So every time you update the package.json
-make sure you re-build the image:
+### Run against your local server
+You can change the HOST to run ``emp`` againts your local development server.
 ```
-docker-compose build emp-test
+EMPIRICAL_HOST=http://localhost:5000 ./bin/cli.js run user/project/x/Xsrsr_8
 ```
-
-### Run from CLI
-Running the tool directly from the CLI is helpful to quickly test an experiment without having to communicate 
-with the server or go through GitHub. You can run your experiments by doing:
-```
-EMPIRICAL_ENV=test ./bin/run.sh experiment-name /path/to/code
-```
-This will build and run ``experiment-name`` defined in ``/path/to/code/empirical.yml``. 
 
 ## Test
+### Setup
 The tests for the empirical client are run in conjuntion with the empirical server. 
 So you should have the Docker image for it ``empiricalci/empirical``.
+
+```
+docker pull empiricalci/test_standalone
+docker run -d -P --name rethink1 rethinkdb
+docker run -d -p 1337 --net host -e AWS_SECRET_KEY=$AWS_SECRET_KEY -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY --entrypoint=npm empiricalci/empirical run test-server
+```
+
+### Lint
+We use Standard for linting.
+```
+npm run lint
+```
+
+### Lib
+```
+npm run test
+```
+
+### CLI
+```
+npm run test-cli
+```
+
+### Test coverage
+```
+npm run test-cov
+```
+
+## TODO:
+- We need to serate server dependent tests so any contributor can run tests independently of the server.
