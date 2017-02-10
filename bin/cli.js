@@ -99,9 +99,11 @@ function execute (args) {
     case 'data':
       return dataCLI(args._[3], args._[4], args.dir)
     case 'version':
-      return version()
+      version()
+      return Promise.resolve()
     default:
-      return usage.main()
+      usage.main()
+      return Promise.resolve()
   }
 }
 

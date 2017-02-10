@@ -17,6 +17,10 @@
 **emp** is a command line tool that helps you run and replicate experiments
 using the [Empirical Framework](https://empiricalci.com/docs/framework)
 
+<p align='center'>
+  <img src='https://cloud.githubusercontent.com/assets/689720/22812270/97c874b0-eef8-11e6-819b-cf17485cfe7e.gif'/>
+</p>
+
 ## Dependencies
 There are only 2 requirements:
 
@@ -45,7 +49,12 @@ and save the results on your computer. All in **one single command**.
 Once you have defined your experiment using the [Empirical Framework](http://empiricalci.com/docs).
 
 ### From GitHub
-Run an experiment drectly from a GitHub repository.
+Run an experiment directly from a GitHub repository.
+```
+emp run mnist https://github.com/empiricalci/mnist-sample
+```
+
+Or provide a specific commit.
 ```
 emp run mnist https://github.com/empiricalci/mnist-sample#0e6b04363c374992eb94a80dd2db0895711fb60f
 ```
