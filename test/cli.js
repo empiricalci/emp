@@ -60,7 +60,7 @@ describe('emp configure', function () {
 describe('emp run', function () {
   it('runs the experiment', function (done) {
     this.timeout(60000)
-    exec('node ./bin/cli.js run hello-world node_modules/fixtures/standalone_project', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js run hello-world test/fixtures/standalone_project', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()

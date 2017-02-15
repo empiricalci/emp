@@ -106,7 +106,7 @@ describe('auth', function () {
   })
 })
 
-const sha = 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
+const sha = 'a6f449c20d296ea966a18d995255870674c0e892'
 describe('gitClone', function () {
   var gitClone = require('../lib/git-clone')
   it('should clone a public repo without a token', function (done) {
@@ -132,13 +132,13 @@ describe('gitHeadCommit', function () {
 describe('readProtocol', function () {
   const readProtocol = require('../lib/read-protocol')
   it('should return a valid protocol', function () {
-    var protocol = readProtocol('./node_modules/fixtures/standalone_project', 'hello-world')
+    var protocol = readProtocol('./test/fixtures/standalone_project', 'hello-world')
     assert.equal(protocol.type, 'standalone')
-    assert(protocol.dataset.resources['answers.csv'])
+    assert(protocol.dataset['answers.csv'])
     assert(protocol.environment.tag)
   })
   it('should return null if the protocol doesn\'t exits in the empirical.yml', function () {
-    var protocol = readProtocol('./node_modules/fixtures/standalone_project', 'some-protocol')
+    var protocol = readProtocol('./test/fixtures/standalone_project', 'some-protocol')
     assert(!protocol)
   })
 })
@@ -189,7 +189,7 @@ describe('run()', function () {
     this.timeout(60000)
     run({
       protocol: 'hello-world',
-      code_path: 'node_modules/fixtures/standalone_project'
+      code_path: 'test/fixtures/standalone_project'
     }, logger)
     .then(function () {
       // TODO: Assert stuff
@@ -212,7 +212,7 @@ describe('run()', function () {
   it('should fail if the experiment-name is not found', function (done) {
     run({
       protocol: 'something',
-      code_path: 'node_modules/fixtures/standalone_project'
+      code_path: 'test/fixtures/standalone_project'
     }, logger)
     .then(function () {
       done(new Error('Protocol not found error wasn\'t caught'))
@@ -238,11 +238,11 @@ describe('run()', function () {
     this.timeout(60000)
     run({
       protocol: 'mnist',
-      code_path: 'https://github.com/empiricalci/mnist-sample#d539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a'
+      code_path: `https://github.com/empiricalci/mnist-sample#${sha}`
     }, logger)
     .then(function (report) {
       assert.equal(report.source.repo, 'https://github.com/empiricalci/mnist-sample')
-      assert.equal(report.source.commit, 'd539a5cc8fd0947470ccf3752a9dbd0f0d6e4e7a')
+      assert.equal(report.source.commit, sha)
       assert(fs.lstatSync(report.source.path).isDirectory())
       done()
     })

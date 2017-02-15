@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-const dir = 'node_modules/fixtures'
+const dir = 'test/fixtures/standalone_project'
 const assert = require('assert')
 const path = require('path')
 const fs = require('fs')
@@ -13,7 +13,7 @@ describe('upload files', function () {
     this.timeout(10000)
     uploader('empirical-bot/my-solver/x/myBuild', dir, ignores).then(function (files) {
       assets = files
-      assert.equal(files.length, 10)
+      assert.equal(files.length, 3)
       done()
     }).catch(done)
   })
