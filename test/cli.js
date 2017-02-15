@@ -143,6 +143,14 @@ describe('emp push', function () {
       done()
     })
   })
+  it('uploads report & artifacts and creates a new project', function (done) {
+    this.timeout(60000)
+    exec('node ./bin/cli.js push -m "Changed number of layers" test/fixtures/test-report empirical-bot/newProject -f', function (err, stdout, stderr) {
+      if (err) return done(err)
+      // TODO: Add assertions
+      done()
+    })
+  })
 })
 
 describe('emp logout', function () {

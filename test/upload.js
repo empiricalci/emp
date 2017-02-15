@@ -41,4 +41,16 @@ describe('push()', function () {
       done()
     }).catch(done)
   })
+  it('fails to push a report for non-existent project with force=false', function (done) {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', false).then(function () {
+      done(new Error('Should not have worked'))
+    }).catch(function () {
+      done()
+    })
+  })
+  it('pushes a report and creates a project with force=true', function (done) {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', true).then(function () {
+      done()
+    }).catch(done)
+  })
 })

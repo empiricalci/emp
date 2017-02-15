@@ -80,7 +80,8 @@ function execute (args) {
       return push(
         args._[4],
         args._[3],
-        args.m || args.message
+        args.m || args.message,
+        args.f || args.force
       )
     case 'configure':
       return captureDirectory().then(config.updateDir)
@@ -108,7 +109,7 @@ function execute (args) {
 }
 
 config.load()
-var argv = require('minimist')(process.argv, {boolean: 'dir'})
+var argv = require('minimist')(process.argv, {boolean: ['dir', 'force', 'f']})
 client.init({
   host: process.env.EMPIRICAL_HOST,
   auth: process.env.EMPIRICAL_AUTH
