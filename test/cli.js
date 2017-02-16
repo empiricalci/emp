@@ -68,7 +68,7 @@ describe('emp run', function () {
   })
   it('replicates experiment from empiricalci', function (done) {
     this.timeout(60000)
-    exec('node ./bin/cli.js run empiricalci/mnist/x/mnistExperiment', function (err, stdout, stderr) {
+    exec('node ./bin/cli.js run empirical-bot/mnist/x/mnistExperiment', function (err, stdout, stderr) {
       if (err) return done(err)
       // TODO: Add assertions
       done()
