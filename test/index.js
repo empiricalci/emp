@@ -267,7 +267,7 @@ describe('replicate()', function () {
   const replicate = require('../lib/replicate')
   it('should replicate code on current directory', function (done) {
     this.timeout(60000)
-    replicate('empiricalci/mnist/x/mnistExperiment', logger).then(function (report) {
+    replicate('empirical-bot/mnist/x/mnistExperiment', logger).then(function (report) {
       assert(fs.lstatSync(report.source.path).isDirectory())
       done()
     }).catch(done)

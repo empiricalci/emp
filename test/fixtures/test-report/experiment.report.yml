@@ -5,10 +5,9 @@ environment:
     build: .
     tag: mnist
 dataset:
-    resources:
-        mnist.pkl.gz:
-            url: 'https://raw.githubusercontent.com/mnielsen/neural-networks-and-deep-learning/master/data/mnist.pkl.gz'
-            hash: f11bb9e41d6c1b6c124aa38fd605497bdcfe2ee08cf7c2bb5a41ab5d759e1416
+    mnist.pkl.gz:
+        url: 'https://raw.githubusercontent.com/mnielsen/neural-networks-and-deep-learning/master/data/mnist.pkl.gz'
+        hash: f11bb9e41d6c1b6c124aa38fd605497bdcfe2ee08cf7c2bb5a41ab5d759e1416
 overall:
     metric: Accuracy
     value: 0.8751
