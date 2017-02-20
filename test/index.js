@@ -25,6 +25,8 @@ before(function (done) {
   })
 })
 
+require('./read-json')
+
 const newDir = path.join('/tmp', 'empirical')
 describe('config', function () {
   var config = require('../config')

@@ -13,3 +13,8 @@ overall:
     value: 0.8751
 status: success
 logs: experiment.log
+results:
+  dum-dum:
+    type: table
+    title: Dummy table
+    data: accuracy.json
