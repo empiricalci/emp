@@ -36,6 +36,7 @@ describe('upload files', function () {
 
 describe('push()', function () {
   const push = require('../lib/push')
+  this.timeout(10000)
   it('pushes a report to the server', function (done) {
     push(`empirical-bot/my-solver`, './test/fixtures/test-report', 'Great experiment!!! :D').then(function () {
       done()
