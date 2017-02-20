@@ -13,7 +13,7 @@ const push = require('../lib/push')
 const isExperimentId = require('../lib/is-experiment-id')
 
 function version () {
-  const emp_version = require('./package.json').version
+  const emp_version = require('../package.json').version
   console.log(`emp version: ${emp_version}`)
 }
 

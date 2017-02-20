@@ -15,6 +15,16 @@ before(function (done) {
   setup.backupConfig(ENV_FILE, done)
 })
 
+describe('emp version', function () {
+  it('logs the version', function (done) {
+    exec('node ./bin/cli.js version', function (err, stdout) {
+      if (err) return done(err)
+      assert.equal(stdout,`emp version: ${require('../package.json').version}\n`)
+      done()
+    })
+  })
+})
+
 describe('emp configure', function () {
   const emp = spawn('node', ['./bin/cli.js', 'configure'])
   emp.stderr.on('data', function (err) {
