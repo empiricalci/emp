@@ -26,6 +26,7 @@ before(function (done) {
 })
 
 require('./read-json')
+require('./parse-results')
 
 const newDir = path.join('/tmp', 'empirical')
 describe('config', function () {
@@ -227,8 +228,8 @@ describe('run()', function () {
   it('should run an experiment from a local directory', function (done) {
     this.timeout(60000)
     run({
-      protocol: 'mnist',
-      code_path: code_dir
+      protocol: 'hello-world',
+      code_path: 'test/fixtures/standalone_project'
     }, logger)
     .then(function (report) {
       assert(fs.lstatSync(report.source.path).isDirectory())

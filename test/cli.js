@@ -19,7 +19,7 @@ describe('emp version', function () {
   it('logs the version', function (done) {
     exec('node ./bin/cli.js version', function (err, stdout) {
       if (err) return done(err)
-      assert.equal(stdout,`emp version: ${require('../package.json').version}\n`)
+      assert.equal(stdout, `emp version: ${require('../package.json').version}\n`)
       done()
     })
   })
