@@ -84,7 +84,7 @@ and share them with your peers.
 Push your results to the online dashboard by providing a message a path to the output directory created by ``emp run`` and the project id.
 
 ```
-emp push -m "Experiment message" /path/to/report <projectId>
+emp push /path/to/report <projectId>
 ```
 
 ## Configure
