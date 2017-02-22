@@ -77,6 +77,10 @@ function execute (args) {
         code_path: args._[4]
       }, logger)
     case 'push':
+      if (!args._[3] || args.help || args.h) {
+        usage.push()
+        return Promise.resolve()
+      }
       return push(
         args._[4],
         args._[3],
