@@ -54,4 +54,9 @@ describe('push()', function () {
       done()
     }).catch(done)
   })
+  it('Catches 409 error when creating a duplicate project', function (done) {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', true).then(function () {
+      done()
+    }).catch(done)
+  })
 })
