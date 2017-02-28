@@ -5,7 +5,7 @@
   </a>
 </h1>
 <p align='center'>
-  <i>A Package Manager for Empirical Science</i><br/><br/>
+  <i>A Power Tool for Empirical Science</i><br/><br/>
   <a href='https://travis-ci.org/empiricalci/emp'>
     <img src='https://travis-ci.org/empiricalci/emp.svg?branch=master' alt='build status'/>
   </a>
@@ -38,7 +38,7 @@ npm install -g empirical-cli
 ## Get started
 Test your installation by replicating an experiment.
 ```
-emp run empiricalci/mnist/x/SJCSKAeT
+emp run empirical/mnist-sample/x/Hke43sz5e
 ```
 
 This will clone the source code from GitHub, checkout the appropriate version, 
