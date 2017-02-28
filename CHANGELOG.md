@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.6.0 (28 Feb 2017)
+- **Breaking changes:** Full API refactor
+- Saving results to the server is now done on 2 steps:
+``emp run`` runs the experiment and saves a report. Then ``emp push`` posts the report
+to the server.
+- Replaced ``emp replicate <experimentId>`` with ``emp run <experimentId>``
+
 ## v0.5.0 (26 Oct 2016)
 - Allows to run GPU enabled docker containers by reading GPU info provided by nvidia-docker-plugin
 - Upgrades dockerise to v0.3.0
