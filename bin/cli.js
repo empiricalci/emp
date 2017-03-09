@@ -11,6 +11,7 @@ const read = require('read')
 const client = require('empirical-client')
 const push = require('../lib/push')
 const isExperimentId = require('../lib/is-experiment-id')
+const cache = require('../lib/cache')
 
 function version () {
   const emp_version = require('../package.json').version
