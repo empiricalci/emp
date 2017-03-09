@@ -50,6 +50,12 @@ function dataCLI (subcommand, source, dir) {
       }).catch(function (err) {
         logger.error(err.message)
       })
+    case 'cache':
+      return cache(source).then(function (out) {
+        logger.log(`Copied to ${out}`)
+      }).catch(function (err) {
+        logger.error(err.message)
+      })
     case 'hash':
       return data.hash(source).then(function (hash) {
         logger.log(`${source}\t${hash}`)
