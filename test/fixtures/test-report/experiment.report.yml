@@ -18,3 +18,8 @@ results:
     type: table
     title: Dummy table
     data: accuracy.json
+  my-figure:
+    type: image
+    title: Some cool image
+    data: robot.png
+

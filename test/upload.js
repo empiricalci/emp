@@ -10,7 +10,7 @@ describe('upload files', function () {
   const ignores = ['README.md']
   var assets
   it('list all files and directories', function (done) {
-    this.timeout(10000)
+    this.timeout(20000)
     uploader('empirical-bot/my-solver/x/myBuild', dir, ignores).then(function (files) {
       assets = files
       assert.equal(files.length, 3)
@@ -31,6 +31,30 @@ describe('upload files', function () {
     assets.filter(function (f) {
       assert(f.path !== path.join(dir, ignores[0]))
     })
+  })
+})
+
+describe('postResults()', function () {
+  const postResults = require('../lib/post-results')
+  it('posts the results and returns status', function (done) {
+    postResults('empirical-bot/my-solver/x/myBuild', './test/fixtures/test-report', {
+      myImage: {
+        type: 'image',
+        title: 'Some cool title',
+        data: 'robot.png'
+      },
+      'dum-dummy': {
+        type: 'table',
+        title: 'Dummy table',
+        data: 'accuracy.json'
+      }
+    }).then(function (results) {
+      assert.equal(results[0].name, 'myImage')
+      assert.equal(results[0].status, 'success')
+      assert.equal(results[1].name, 'dum-dummy')
+      assert.equal(results[1].status, 'success')
+      done()
+    }).catch(done)
   })
 })
 
