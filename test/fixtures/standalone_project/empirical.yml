@@ -10,3 +10,14 @@ protocols:
       "data.csv":
         url: "https://raw.githubusercontent.com/empiricalci/fixtures/master/data.csv"
         hash: "75821d9915567987edd0ff3271e276c922218c638e05efb2955a32c4526abdd9"
+  hello-prebuilt:
+    environment:
+      image: python:2.7-alpine
+      command: python main.py
+    dataset:
+      "answers.csv":
+        url: "https://raw.githubusercontent.com/empiricalci/fixtures/master/answers.csv"
+        hash: "3d7219dab4803e82ad97ece9a49fc25c6fd3762a369236d131cb729f32946ff2"
+      "data.csv":
+        url: "https://raw.githubusercontent.com/empiricalci/fixtures/master/data.csv"
+        hash: "75821d9915567987edd0ff3271e276c922218c638e05efb2955a32c4526abdd9"

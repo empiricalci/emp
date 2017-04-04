@@ -200,6 +200,18 @@ describe('run()', function () {
     })
     .catch(done)
   })
+  it('should run with prebuilt environment', function (done) {
+    this.timeout(60000)
+    run({
+      protocol: 'hello-prebuilt',
+      code_path: 'test/fixtures/standalone_project'
+    }, logger)
+    .then(function () {
+      // TODO: Assert stuff
+      done()
+    })
+    .catch(done)
+  })
   it('should fail if no code path is given', function (done) {
     run({
       protocol: 'hello-world'
