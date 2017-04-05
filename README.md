@@ -24,7 +24,7 @@ using the [Empirical Framework](https://empiricalci.com/docs/framework)
 ## Dependencies
 There are only 2 requirements:
 
-- **Node.js** is a JavaScript runtime required to run  this program on your computer. Download and install Node.js [from here](https://nodejs.org/en/). **Note:** Node.js v7.0.0 is not yet compatible.
+- **Node.js** is a JavaScript runtime required to run  this program on your computer. Download and install Node.js [from here](https://nodejs.org/en/).
 - **Docker** allows us to create self-contained portable environments that work accross different platforms. Follow [these instructions](https://docs.docker.com/engine/installation/) to install Docker.
 
 ## Install
