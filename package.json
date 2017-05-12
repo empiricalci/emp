@@ -24,7 +24,7 @@
     "colors": "^1.1.2",
     "dataset-cache": "^3.0.0",
     "debug": "^2.2.0",
-    "dockerise": "^3.0.0",
+    "dockerise": "^3.1.0",
     "empirical-client": "^0.4.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
