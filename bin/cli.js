@@ -81,12 +81,10 @@ function execute (args) {
         usage.push()
         return Promise.resolve()
       }
-      return push(
-        args._[4],
-        args._[3],
-        args.m || args.message,
-        args.f || args.force
-      )
+      return push(args._[4], args._[3], {
+        message: args.m || args.message,
+        force: args.f || args.force
+      })
     case 'configure':
       return captureDirectory().then(config.updateDir)
     case 'login':

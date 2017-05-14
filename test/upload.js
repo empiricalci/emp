@@ -62,24 +62,33 @@ describe('push()', function () {
   const push = require('../lib/push')
   this.timeout(10000)
   it('pushes a report to the server', function (done) {
-    push(`empirical-bot/my-solver`, './test/fixtures/test-report', 'Great experiment!!! :D').then(function () {
+    push(`empirical-bot/my-solver`, './test/fixtures/test-report', {message: 'Great experiment!!! :D'}).then(function () {
       done()
     }).catch(done)
   })
   it('fails to push a report for non-existent project with force=false', function (done) {
-    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', false).then(function () {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', {
+      message: 'Great experiment!!! :D',
+      force: false
+    }).then(function () {
       done(new Error('Should not have worked'))
     }).catch(function () {
       done()
     })
   })
   it('pushes a report and creates a project with force=true', function (done) {
-    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', true).then(function () {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', {
+      message: 'Great experiment!!! :D',
+      force: true
+    }).then(function () {
       done()
     }).catch(done)
   })
   it('Catches 409 error when creating a duplicate project', function (done) {
-    push(`empirical-bot/someProject`, './test/fixtures/test-report', 'Great experiment!!! :D', true).then(function () {
+    push(`empirical-bot/someProject`, './test/fixtures/test-report', {
+      message: 'Great experiment!!! :D',
+      force: true
+    }).then(function () {
       done()
     }).catch(done)
   })
