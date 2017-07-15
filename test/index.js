@@ -181,7 +181,24 @@ describe('runExperiment', function () {
       done()
     }).catch(done)
   })
-  it('should fail if the experiment fails')
+  it('should fail if the experiment fails', function (done) {
+    this.timeout(300000)
+    const runExperiment = require('../lib/run-experiment')
+    runExperiment({
+      id: 'some_id',
+      type: 'standalone',
+      environment: {
+        tag: 'empiricalci/test_standalone',
+        entrypoint: 'sh',
+        command: 'exit 1'
+      }
+    }).then(function () {
+      done(new Error('Experiment should have failed.'))
+    }).catch(function (err) {
+      console.log(err)
+      done()
+    })
+  })
 })
 
 require('./pull')
