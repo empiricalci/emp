@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.7.0 (15 Jul 2017)
+- Fail whenever a container throws an error
+- Allows to run experiments from pre-built images
+- Allows to upload result images
+- Reports timestams and durations
+- Compatible with Node 7.0
+
 ## v0.6.0 (28 Feb 2017)
 - **Breaking changes:** Full API refactor
 - Saving results to the server is now done on 2 steps:
