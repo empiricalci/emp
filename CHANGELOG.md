@@ -6,6 +6,7 @@
 - Allows to upload result images
 - Reports timestams and durations
 - Compatible with Node 7.0
+- Drop support for Node 4
 
 ## v0.6.0 (28 Feb 2017)
 - **Breaking changes:** Full API refactor
