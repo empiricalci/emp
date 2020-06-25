@@ -1,3 +1,4 @@
+## This project is no longer being maintained. Feel free to fork & take over.
 
 <h1 align='center'>
   <a href='https://empiricalci.com'>
